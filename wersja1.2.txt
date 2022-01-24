@@ -1,0 +1,223 @@
+// PapersPleaseWersjaKonsolowa.cpp : Ten plik zawiera funkcję „main”. W nim rozpoczyna się i kończy wykonywanie programu.
+//
+
+// NAMING
+// struct names - uppercase characters and "_"
+// variable names - small characters and "_"
+// function names - small and one/two uppercase characters
+
+#include <iostream>
+#include <fstream>
+#include <ctime>
+#include <random>
+#include <stdlib.h>
+#include <windows.h>
+#include <iomanip>
+#include <string>
+#include "Nagłówek.h"
+
+using namespace std;
+
+int DayNumber, CoinsNumber;
+
+void ShowMenu();
+void ShowHowToPlay();
+
+void InitializeGame();
+void PlayGame();
+void NewGame();
+void ContinueGame();
+
+int GoToWork(int DayNumber);
+
+int GenerateRandomNumber(int max);
+string GenerateData(string array[], int max_range);
+void Typewriter(string text);
+
+
+//string passport_data_array[] = { *name_array, *surname_array, *birth_date_array, *country_date_array, *code_array };
+
+// Generator liczb losowych od 1 do zadanej liczby
+int GenerateRandomNumber(int max)
+{
+	int range = max;
+	srand(time(nullptr));
+	int num = rand() % range + 1;
+
+	return num;
+}
+
+// Generator danych osobowych petenta
+string GenerateData(string array[], int max_range)
+{
+	--max_range;
+	string data = array[GenerateRandomNumber(max_range)];
+	return data;
+}
+
+string name_array[] = { "Grigorij", "Nikolai", "Marika", "Paul", "Katrina", "Eva" };
+string surname_array[] = { "Kovalev", "Webov", "Gitarov", "Kaczmarov" };
+string birth_date_array[] = { "23.04.1976", "12.09.1956", "01.05.1982" };
+string country_array[] = { "Arstotzka", "Kolechia", "Obristan", "Republia" };
+string code_array[] = { "RGRD2-WTGDF-A674F", "DDFF2-RTVV9-89DFD", "RERG1-JYUJT-56G45" };
+
+struct PASSPORT
+{
+	string name;
+	string surname;
+	string birth_date;
+	string country;
+	string code;
+	void GeneratePassport()
+	{
+		name = GenerateData(name_array, _countof(name_array));
+		surname = GenerateData(surname_array, _countof(surname_array));
+		birth_date = GenerateData(birth_date_array, _countof(birth_date_array));
+		country = GenerateData(country_array, _countof(country_array));
+		code = GenerateData(code_array, _countof(code_array));
+	};
+	void PrintPassport()
+	{
+		cout << "+" << setfill('-') << setw(30) << "+" << endl;
+		cout << name << ", " << surname;
+		cout << endl;
+		cout << "-" << setfill('-') << setw(30) << "-" << endl;
+		cout << endl;
+		cout << "Birthday: " << birth_date;
+		cout << endl;
+		cout << "Citizenship: " << country;
+		cout << endl;
+		cout << code;
+		cout << endl;
+		cout << "+" << setfill('-') << setw(30) << "+" << endl;
+	};
+};
+
+void ShowHowToPlay()
+{
+	system("CLS");
+	int option;
+	cout << "Just play." << endl;
+	cout << endl << "< 4. Back";
+	do
+	{
+		cout << endl;
+		cin >> option;
+		if (option == 4)
+			ShowMenu();
+	} while (option != 4);
+}
+
+void PlayGame()
+{
+	system("CLS");
+	//Tu trzeba sprawdzic czy istnieje plik zapisu
+	//if(plik istnieje) {pokaż opcję kontynuuj grę}
+	//else {pokaż tylko opcję "nowa gra"}
+	cout << "Nowa Gra" << endl;
+	system("pause");
+	NewGame();
+}
+
+// Nowa gra
+//------------------------------------
+void NewGame()
+{
+	InitializeGame();
+	system("CLS");
+	Typewriter("Witajcie obywatelu!\n\nSprawujcie sie dobrze.");
+
+	Typewriter("\n\n>Rozpocznij dzien\n");
+	system("pause");
+	GoToWork(DayNumber);
+}
+//------------------------------------
+
+void InitializeGame()
+{
+	CoinsNumber = 60;
+	DayNumber = 1;
+}
+
+void ShowMenu()
+{
+	while (true)
+	{
+		system("CLS");
+		int option;
+
+		cout << endl << "----------------------------" << endl;
+		cout << endl << "      Main Menu   " << endl;
+		cout << endl << "----------------------------" << endl;
+
+		cout << "1. Start" << endl;
+		cout << "2. How to play?" << endl;
+		cout << "3. Quit" << endl;
+
+		cin >> option;
+		cout << "\n" << endl;
+
+		switch (option)
+		{
+		case 1:
+			PlayGame();
+			break;
+		case 2:
+			ShowHowToPlay();
+			break;
+		case 3:
+			exit(1);
+		default:
+			system("CLS");
+			ShowMenu();
+			break;
+		}
+	}
+}
+
+void Typewriter(string text)
+{
+	int i = 0;
+	while (text[i] != '\0')
+	{
+		Sleep(80);
+		cout << text[i];
+		i++;
+	}
+	Sleep(500);
+};
+
+int GoToWork(int DayNumber)
+{
+	system("CLS");
+	if (DayNumber < 3)
+	{
+		if (DayNumber == 1)
+			Typewriter("W Kolechii znowu doszlo do zamieszek.\nPanstwo jest zaniepokojone.");
+		else
+			Typewriter("Niepowstrzymani obywatele Kolechii przedzieraja sie przez granice.");
+	}
+	//tu dalej będą kolejne dni
+	int PersonCounter = 0;
+	while (PersonCounter != 10)
+	{
+		system("CLS");
+		Typewriter("> Nastepny\n\n");
+		system("pause");
+
+		system("CLS");
+		PASSPORT passport;
+		passport.GeneratePassport();
+		passport.PrintPassport();
+		system("pause");
+		PersonCounter++;
+	}
+	return 0;
+}
+
+// Program główny
+int main()
+{
+	ShowMenu();
+	system("pause");
+}

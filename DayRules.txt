@@ -1,0 +1,4 @@
+1 Sprawdzaj czy petenci sa obywatelami naszego kraju.
+2 Sprawdzaj czy petenci posiadaja dowod osobisty zgodny z paszportem.
+3 Sprawdzaj czy petenci maja mniej niz szescdziesiat siedem lat.
+4 Sprawdzaj czy petenci nie sa z Kolechii.
