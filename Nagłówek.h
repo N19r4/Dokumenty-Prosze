@@ -34,7 +34,6 @@ void InitializeGame();
 void PlayGame();
 void NewGame();
 //void ContinueGame();
-int GoToWork(int DayNumber);
 //bool CheckMistake(int, PASSPORT, PASSPORT);
 //void ShowMenuForChoosingMistake(PASSPORT fake_passport, PASSPORT passport);
 

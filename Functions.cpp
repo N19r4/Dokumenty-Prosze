@@ -2,52 +2,78 @@
 #include <fstream> // biblioteka do plikow
 #include <ctime> // biblioteka do czasu
 #include <random> // biblioteka do losowego generowania
-#include <stdlib.h> // biblioteka do polecen systemowych
+//#include <stdlib.h> // biblioteka do polecen systemowych
 #include <windows.h> // biblioteka do "sleep"
 #include <iomanip> // biblioteka do manipulacji wygladu i out
 #include <string>
-#include <chrono>
+//#include <chrono>
 #include <conio.h>
 #include "Nag³ówek.h"
 
 using namespace std;
 
-void gotoxy(int x, int y);
-
 // Arrays
 
 string name_array[] = { "Grigorij", "Nikolai", "Marika", "Paul", "Katrina", "Eva", "Dimitr", "Anna", "Francesca", "Alexandr", "Kristof", "Eric", "Vladimir", "Alisa", "Andrei", "Nastya", "Misha", "Mariya", "Peter", "Aleksandra", "Lev", "Kostya", "Boris", "Rodion", "Anatoli", "Efrosin", "Isaak", "Anushka", "Radianka", "Mikhail", "Wilhelmine", "Jochem", "Luther", "Vogel" };
 string surname_array[] = { "Kovalev", "Webov", "Gitarov", "Kaczmarov", "Ginter", "Russ", "Schumann", "Guttman", "Mikhaylov", "Morozov", "Vlasov", "Petrov", "Vasiliev", "Lebedev", "Sokolovic", "Kuzumin", "Bogdanovic", "Pushkin", "Sitz", "Fredrich", "Vonnegut", "Eichel", "Sommer", "Roth", "Neumann", "Shulz", "Hofmann", "Waltz" };
-string birth_date_array[] = { "23.04.1976", "12.09.1956", "01.05.1982", "11.07.1968", "09.09.1990", "05.07.1976", "23.12.1965", "13.06.1919", "19.08.1945", "04.08.1963", "29.01.1945", "09.11.1943", "01.09.1907", "07.10.1923", "17.03.1972" };
-string country_array[] = { "Arstotzka", "Kolechia", "Obristan", "Republia", "Altan", "Morstana", "West Grestin" };
+string birth_date_array[] = { "23.04.1926", "12.09.1939", "01.05.1922", "11.07.1918", "09.09.1910", "05.07.1906", "23.12.1940", "13.06.1919", "19.08.1941", "04.08.1913", "29.01.1935", "09.11.1933", "01.09.1907", "07.10.1923", "17.03.1932" };
+string country_array[] = { "Kavertia", "Derad", "Ugratia", "Kolosia", "Mamaika", "West Mastern", "Paladia", "East Retkorn"};
 string code_array[] = { "RGRD2-WTGDF-A674F", "DDFF2-RTVV9-89DFD", "RERG1-JYUJT-56G45", "3454F-9D9FG-SDF98", "DF98G-SDUFI-DF98G", "S98UF-SD9FD-0FGIB", "I3HI4-234BJ-23JKK", "GE8U9-REBRR-QWE78", "29HR9-BQ7E8-QNWOE", "9W9EH-EIWEU-QI2UE", "QUY28-08QXC-34HT7", "FN9FW-BMF9G-WJ9E8", "B8374-2I3RN-IEWUW", "Q09IJ-B2383-IN5TI", "B874B-VHW8E-N2O33", "98GJF-23IEN-19OIR", "09DIF-ASUDH-08NO3", "09IVX-WNE8R-2N398", "2N3O4-IJ8FD-3WJNK" };
 string weight_array[] = { "64", "56", "90", "37", "58", "41", "98", "34", "94", "86", "65", "62", "75", "68", "49", "79", "62", "61", "70", "78", "53", "51", "48" };
 string height_array[] = { "174", "167", "198", "179", "180", "159", "163", "190", "197", "143", "172", "153", "187", "162", "157", "194", "134", "161", "171", "129", "133", "182"};
+string iq_array[] = { "98", "123", "145", "87", "198", "130", "142" };
+string expected_profession_array[] = { "mechanik", "naukowiec", "lekarz", "nauczyciel", "budowlaniec", "sekretarz", "sprzatacz", "piekarz", "sprzedawca", "psycholog", "tkacz", "bard", "ksiegowy", "bednarz", "grabarz", "policjant", "kowal", "urzednik", "wozny", "katecheta" };
+
 string passport_types_of_data_array[] = { "name", "surname", "birth_date", "country", "code"};
-string id_card_types_of_data_array[] = { "name", "surname", "birth_date", "country", "height", "weight"};
+string id_card_types_of_data_array[] = { "name", "surname", "birth_date", "country", "height", "weight", "code"};
+string dialogues_array[] = {"Jestescie dobrzy.Przepuscicie mnie?", "I jak tam sie zyje?Dobrze?", "Wracam do Kavertii.To wspanialy kraj!", "Blagam.Przepuscie mnie!Moj syn choruje.Musze sie tam dostac.", "Macie pozyczyc 5$?", "Prosze, przepuscie mnie!", "Nie daje juz rady.", "Zlitujcie sie nade mna!Musze wejsc!", "Niech zyje Kavertia!", " ", "Wszystko jest poprawnie?", "Czy tam jest tak dobrze?", "Badzcie dla mnie laskawi!", "Ja tylko przejazdem.", "Wracam do rodziny."};
+
+const char* passport_types_of_data_array_PL[] = {"imie", "nazwisko", "rok", "kraj", "kod"};
+const char* passport_and_id_types_of_data_array_PL[] = { "imie", "nazwisko", "rok", "kraj", "kod", "waga", "wzrost"};
+
+// Functions
+
+void gotoxy(int x, int y);
 
 // Structs
 
-/*extern struct DATA
+extern struct BRAIN_TEST
 {
-	int DayNumber;
-	int CoinsNumber;
-	bool SaveGame(string file_name)
+	string name;
+	string surname;
+	string iq;
+	string expected_profession;
+	void GenerateIdCard()
 	{
-		ofstream file;
-
-		file.open(file_name);
-		if (file.is_open())
-		{
-			file << CoinsNumber << endl;
-			file << DayNumber << endl;
-
-			file.close();
-		}
-		else
-			cout << "Save file not found." << endl;
+		iq = GenerateData(iq_array, _countof(iq_array));
+		expected_profession = GenerateData(expected_profession_array, _countof(expected_profession_array));
 	}
-};*/
+	void PrintBrainTest()
+	{
+		int x = 95;
+		int y = 20;
+		int width = 20;
+
+		gotoxy(x, y);
+		cout << setfill(' ');
+		gotoxy(x, y+1);
+		cout << setw(15) << "BADANIA LEKARSKIE";
+		gotoxy(x, y+2);
+		cout << "<" << setfill('-') << setw(width) << ">";
+		gotoxy(x, y + 3);
+		cout << iq << " IQ";
+		gotoxy(x, y+4);
+		cout << name << " " << surname;
+		gotoxy(x, y+5);
+		cout << "-" << setfill('-') << setw(width) << "-";
+		gotoxy(x, y+6);
+		cout << "Przewidywany zawod:";
+		gotoxy(x, y+7);
+		cout << expected_profession;
+		gotoxy(x, y+8);
+		cout << "<" << setfill('-') << setw(width) << ">";
+	}
+};
 
 extern struct ID_CARD
 {
@@ -57,26 +83,37 @@ extern struct ID_CARD
 	string country;
 	string height;
 	string weight;
+	string code;
 	void PrintIdCard()
 	{
+		int x = 95;
+		int y = 8;
 		int width = 25;
+
+		gotoxy(x, y);
 		cout << setfill(' ');
-		//cout << setw(19) << "IDENTITY CARD" << endl;
-		cout << setw(19) << "DOWOD OSOBISTY" << endl;
-		cout << "+" << setfill('-') << setw(width) << "+" << endl;
-		cout << "Dystrykt " << country;
-		cout << endl;
-		cout << "+" << setfill('-') << setw(width) << "+" << endl;
-		cout << surname << " " << name;
-		cout << endl;
-		cout << "-" << setfill('-') << setw(width) << "-" << endl;
+		gotoxy(x, y + 1);
+		cout << setw(19) << "DOWOD OSOBISTY";
+		gotoxy(x, y + 2);
+		cout << "+" << setfill('-') << setw(width) << "+";
+		gotoxy(x, y + 3);
+		cout << code;
+		gotoxy(x, y + 4);
+		cout << "+" << setfill('-') << setw(width) << "+";
+		gotoxy(x, y + 5);
+		cout << name << " " << surname;
+		gotoxy(x, y + 6);
+		cout << "-" << setfill('-') << setw(width) << "-";
+		gotoxy(x, y + 7);
 		cout << "Ur: " << birth_date;
-		cout << endl;
+		gotoxy(x, y + 8);
+		cout << "Ob: " << country;
+		gotoxy(x, y + 9);
 		cout << "Wys: " << height << "cm";
-		cout << endl;
+		gotoxy(x, y + 10);
 		cout << "Wg: " << weight << "kg";
-		cout << endl;
-		cout << "+" << setfill('-') << setw(width) << "+" << endl;
+		gotoxy(x, y + 11);
+		cout << "+" << setfill('-') << setw(width) << "+";
 	};
 	void GenerateIdCard()
 	{
@@ -103,32 +140,27 @@ extern struct PASSPORT
 	void PrintPassport()
 	{
 		int x = 60;
-		int y = 10;
+		int y = 8;
+		int width = 30;
 
 		gotoxy(x, y);
 		cout << setfill(' ');
-		//cout << setw(19) << "ENTRY VISA" << endl;
 		gotoxy(x, y + 1);
-		cout << setw(19) << "VISA WEJSCIOWA" << endl;
+		cout << setw(22) << "VIZA WEJSCIOWA";
 		gotoxy(x, y + 2);
-		cout << "+" << setfill('-') << setw(30) << "+" << endl;
+		cout << "+" << setfill('-') << setw(width) << "+";
 		gotoxy(x, y + 3);
-		cout << name << ", " << surname;
+		cout << surname << ", " << name;
 		gotoxy(x, y + 4);
-		//cout << endl;
-		cout << "-" << setfill('-') << setw(30) << "-" << endl;
+		cout << "-" << setfill('-') << setw(width) << "-";
 		gotoxy(x, y + 5);
-		//cout << endl;
 		cout << "Urodzony/a: " << birth_date;
 		gotoxy(x, y + 6);
-		//cout << endl;
 		cout << "Obywatelstwo: " << country;
 		gotoxy(x, y + 7);
-		//cout << endl;
 		cout << code;
 		gotoxy(x, y + 8);
-		//cout << endl;
-		cout << "+" << setfill('-') << setw(30) << "+" << endl;
+		cout << "+" << setfill('-') << setw(width) << "+";
 	};
 	
 };
@@ -156,6 +188,27 @@ string LetterChanger(string text_to_change)
 	text_to_change[letter_index] = random_letter;
 	return text_to_change;
 }
+bool CompareTheAge(string date1, string date2, int min_age, int max_age)
+{
+	int age1 = stoi(date1.substr(8));
+	int age2 = stoi(date2.substr(8));
+
+	if (age1 - age2 > 0)
+	{
+		if ((age1 - age2 >= min_age) && (age1 - age2 <= max_age))
+			return true;
+		else
+			return false;
+	}
+	else
+	{
+		if ((age2 - age1 >= min_age) && (age2 - age1 <= max_age))
+			return true;
+		else
+			return false;
+	}
+
+}
 
 // Generator b³êdu dla paszportu
 PASSPORT PassportMistakeGenerator(PASSPORT right_passport)
@@ -166,109 +219,89 @@ PASSPORT PassportMistakeGenerator(PASSPORT right_passport)
 
 	// U¿ywam "if" poniewa¿ switch nie przyjmuje "stringa"
 	if (mistake == "name")
-	{
 		fake_passport.name = LetterChanger(right_passport.name);
-	}
 	else if (mistake == "surname")
-	{
 		fake_passport.surname = LetterChanger(right_passport.surname);
-	}
 	else if (mistake == "birth_date")
-	{
-		fake_passport.birth_date = LetterChanger(right_passport.birth_date);
-	}
+		fake_passport.birth_date = GenerateData(birth_date_array, _countof(birth_date_array));
 	else if (mistake == "country")
-	{
-		fake_passport.country = LetterChanger(right_passport.country);
-	}
+		fake_passport.country = GenerateData(country_array, _countof(country_array));
 	else if (mistake == "code")
-	{
 		fake_passport.code = LetterChanger(right_passport.code);
-	}
 	else
 		return right_passport;
 	return fake_passport;
 }
-
-extern struct GAME_DATA
+ID_CARD IdCardMistakeGenerator(ID_CARD right_id_card)
 {
-	int CoinsNumber;
-	int DayNumber;
-	
-	void SaveGame(string file_name)
-	{
-		ofstream file;
+	ID_CARD fake_id_card = right_id_card;
+	string mistake = "name";
+	mistake = GenerateData(id_card_types_of_data_array, _countof(id_card_types_of_data_array));
 
-		file.open(file_name);
-		if (file.is_open())
-		{
-			file << CoinsNumber << endl;
-			file << DayNumber << endl;
-
-			file.close();
-		}
-		else
-		{
-			cout << "Save file not found." << endl;
-		}
-	}
-	void LoadGame(string file_name)
-	{
-		string data[2];
-		int i = 0;
-
-		ifstream file;
-		file.open(file_name);
-		if (file.is_open())
-		{
-			while (!file.eof())
-			{
-				getline(file, data[i]);
-				i++;
-			}
-			file.close();
-		}
-		else
-			cout << "Error." << endl;
-	}
-};
+	// U¿ywam "if" poniewa¿ switch nie przyjmuje "stringa"
+	if (mistake == "name")
+		fake_id_card.name = LetterChanger(right_id_card.name);
+	else if (mistake == "surname")
+		fake_id_card.surname = LetterChanger(right_id_card.surname);
+	else if (mistake == "birth_date")
+		fake_id_card.birth_date = GenerateData(birth_date_array, _countof(birth_date_array));
+	else if (mistake == "country")
+		fake_id_card.country = GenerateData(country_array, _countof(country_array));
+	//else if (mistake == "height")
+		//fake_id_card.height = GenerateData(height_array, _countof(height_array));
+	//else if (mistake == "weight")
+		//fake_id_card.weight = GenerateData(weight_array, _countof(weight_array));
+	else if (mistake == "code")
+		fake_id_card.code = LetterChanger(right_id_card.code);
+	else
+		return right_id_card;
+	return fake_id_card;
+}
 
 // Variables
 
 int DayNumber{};
 int CoinsNumber{};
+int NeutralEndingPoints{};
+int BadEndingPoints{};
+int GoodEndingPoints{};
 
-/*int TextCenter(string text[])
-{
-	HANDLE screen = GetStdHandle(STD_OUTPUT_HANDLE);
-
-	COORD max_size = GetLargestConsoleWindowSize(screen);
-
-	COORD pos;
-	pos.X = (max_size.X - sizeof(text)) / 2;
-	pos.Y = max_size.Y / 2;
-	SetConsoleCursorPosition(screen, pos);
-
-	LPDWORD written;
-	WriteConsole(screen, text, sizeof(text), written, 0);
-
-	return 0;
-}*/
-
-// Functions
+string LetterChanger(string text_to_change);
+void InitializeGame();
+int GenerateRandomNumber(int max);
+string GenerateData(string array[], int max_range);
+void WriteFromFileByIndex(int index, string file_name);
+void hidecursor();
+void ShowHowToPlay();
+void PlayGame();
+void NewGame();
+void Typewriter(string text, int which_line);
+void GenerateDialogue(int which_line);
+void color(int color);
+void ShowMenu();
+void Ending(int ending_index);
+bool CheckMistake(int choice, PASSPORT fake_passport, PASSPORT right_passport, ID_CARD fake_id_card, ID_CARD right_id_card);
+bool LetIn();
+int ShowMenuForChoosingMistake(PASSPORT fake_passport, PASSPORT right_passport, ID_CARD fake_id_card, ID_CARD right_id_card);
+int SelectMistake(int counter, int how_many_data);
+void SayNext();
+void DayChoose(int day_number);
 
 // Inicjalizacja gry
 void InitializeGame()
 {
-	CoinsNumber = 60;
+	CoinsNumber = 30;
 	DayNumber = 1;
+	NeutralEndingPoints = 0;
+	BadEndingPoints = 0;
+	GoodEndingPoints = 0;
 }
 // Generator liczb losowych od 1 do zadanej liczby
 int GenerateRandomNumber(int max)
 {
 	int range = max;
 	srand(time(nullptr));
-	int num = rand() % range + 1;
+	int num = rand() % range; //+1
 
 	return num;
 }
@@ -278,16 +311,6 @@ string GenerateData(string array[], int max_range)
 	--max_range;
 	string data = array[GenerateRandomNumber(max_range)];
 	return data;
-}
-// G³ówna czêœæ - wybór dnia
-int GoToWork(int DayNumber)
-{
-	DayChoose(DayNumber);
-
-	system("pause");
-	ShowMenu();
-
-	return 0;
 }
 // Funkcja wypisuj¹ca z pliku jak na maszynie
 void WriteFromFileByIndex(int index, string file_name)
@@ -316,6 +339,7 @@ void WriteFromFileByIndex(int index, string file_name)
 	else
 		cout << "Error." << endl;
 }
+// Funkcja ukrywaj¹ca kursor
 void hidecursor() 
 { 
 	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);   
@@ -324,8 +348,7 @@ void hidecursor()
 	info.bVisible = FALSE;   
 	SetConsoleCursorInfo(consoleHandle, &info); 
 }
-
-// Jak graæ?
+// Funkcja pokazuj¹ca jak graæ?
 void ShowHowToPlay()
 {
 	system("CLS");
@@ -339,14 +362,14 @@ void ShowHowToPlay()
 
 	cout << endl << "W grze wcielisz sie w inspektora imigracyjnego sprawdzajacego dokumenty na granicy Twojego kraju - Kavertii.";
 	cout << endl << endl;
-	cout << "Podstawowa mechanika jest tu wybieranie, ktora z informacji zawartych w dokumentach petentow jest niezgodna z innymi papierami tegoz petenta lub z obecnym prawem. Na poczatku kazdego dnia zostaniesz zapoznany z nowym przepisem, ktorego nalezy przestrzegac.\nAby podac, w ktorym miejscu wedlug Ciebie znajduje sie blad, wystarczy wpisac nazwe informacji z niezgodnoscia, na przyklad: imie, data urodzenia, waga.Jesli nie widzisz zadnego bledu, po prostu wpisz: brak.\n\nNastepnie, bedziesz musial zadecydowac, czy przepuscisz danego petenta, czy nie w zaleznoci od Twoich wyborow moralnych.\nPamietaj! Jesli przepuscisz osobe, ktorej dokumenty byly niezgodne lub nie przepuscisz osoby, ktora zadbala o poprawnosc papierow - stracisz czesc swojej wyplaty.";
+	cout << "Podstawowa mechanika jest tu wybieranie, ktora z informacji zawartych w dokumentach petentow jest niezgodna z innymi papierami tegoz petenta lub z obecnym prawem. Na poczatku kazdego dnia zostaniesz zapoznany z nowym przepisem, ktorego nalezy przestrzegac.\n\nBedziesz musial zadecydowac, czy przepuscisz danego petenta czy nie, w zaleznoci od Twoich wyborow moralnych.\nPamietaj! Jesli przepuscisz osobe, ktorej dokumenty byly niezgodne lub nie przepuscisz osoby, ktora zadbala o poprawnosc papierow - stracisz czesc swojej wyplaty.\nDbaj o swoja rodzine!";
 
 	cout << endl << endl;
-	cout << "Aby zglosic, w ktorym miejscu jest blad wystarczy wpisac nazwe typu danej informacji np. imie, data urodzenia, kraj pochodzenia itd.";
+	cout << "Gra zapisuje sie automatycznie na poczatku kazdego dnia pracy.";
 
 	cout << "\n\n" << "Powodzenia!";
 	color(3);
-	cout << endl << endl << "< Back" << endl;
+	cout << endl << endl << "< POWROT" << endl;
 	color(7);
 	system("pause");
 	ShowMenu();
@@ -355,9 +378,7 @@ void ShowHowToPlay()
 void PlayGame()
 {
 	system("CLS");
-	//Tu trzeba sprawdzic czy istnieje plik zapisu
-	//if(plik istnieje) {poka¿ opcjê kontynuuj grê}
-	//else {poka¿ tylko opcjê "nowa gra"}
+
 	int menu_y = 13;
 	int Set[] = { 7,7,7 }; // DEFAULT COLORS
 	int main_color = 7;
@@ -375,13 +396,17 @@ void PlayGame()
 
 		gotoxy(24, menu_y+1);
 		color(Set[1]);
-		cout << setw(menu_width) << "WCZYTAJ GRE";
+		cout << setw(menu_width + 1) << "KONTYNUUJ GRE";
+
+		gotoxy(24, menu_y + 2);
+		color(Set[2]);
+		cout << setw(menu_width - 3) << "POWROT";
 
 		key = _getch();
 
-		if (key == 72 && counter == 2)
+		if (key == 72 && counter > 1 && counter <= 3)
 			counter--;
-		if (key == 80 && counter == 1)
+		if (key == 80 && counter >= 1 && counter < 3)
 			counter++;
 		if (key == '\r')
 		{
@@ -389,36 +414,55 @@ void PlayGame()
 			if (counter == 1)
 				NewGame();
 			if (counter == 2)
-				DayChoose(1);
+			{
+				string data[5]{};
+				int i = 0;
+				fstream file;
+				file.open("data.txt", ios::in);
+				if (file.is_open())
+				{
+					while (!file.eof())
+					{
+						getline(file, data[i]);
+						i++;
+					}
+				}
+				else
+					cout << "Error.";
+
+				DayNumber = stoi(data[0]);
+				CoinsNumber = stoi(data[1]);
+				NeutralEndingPoints = stoi(data[2]);
+				GoodEndingPoints = stoi(data[3]);
+				BadEndingPoints = stoi(data[4]);
+				DayChoose(DayNumber);
+			}
+			if (counter == 3)
+				ShowMenu();
 		}
 
 		Set[0] = 7;
 		Set[1] = 7;
+		Set[2] = 7;
 
 		if (counter == 1)
 			Set[0] = hover_color;
 		if (counter == 2)
 			Set[1] = hover_color;
+		if (counter == 3)
+			Set[2] = hover_color;
 	}
 }
-// Funkcja prosz¹ca o podanie b³êdu
-/*bool WhereIsTheMistake(string mistake_type, PASSPORT right_passport, PASSPORT wrong_passport, ID_CARD right_id_card, ID_CARD wrong_id_card)
-{
-
-}*/
-// Nowa gra
-//------------------------------------
+// Funkcja pokazuj¹ca tekst na pocz¹tku gry
 void NewGame()
 {
 	InitializeGame();
 	system("CLS");
-	Typewriter("Witajcie obywatelu!Zostala wam przydzielona bardzo wazna funkcja inspektora emigracyjnego.Macie za zadanie sprawdzac dokumenty kazdego petenta.Pilnujcie przepisow!Sprawujcie sie dobrze.\n\n");
+	Typewriter("Witajcie obywatelu!Zostala wam przydzielona funkcja inspektora imigracyjnego.Macie za zadanie sprawdzac dokumenty kazdego petenta.Pilnujcie przepisow!Sprawujcie sie dobrze.NIECH ZYJE KAVERTIA!");
 	system("CLS");
 	
-	GoToWork(DayNumber);
+	DayChoose(DayNumber);
 }
-//------------------------------------
-
 // Funkcja wypisuj¹ca tekst jak na maszynie
 void Typewriter(string text, int which_line)
 {
@@ -428,14 +472,14 @@ void Typewriter(string text, int which_line)
 	
 	while (text[i] != '\0')
 	{
-		Sleep(50);
+		Sleep(40);
 		
 		cout << text[i];
 		//Beep(777, 20);
 
-		if (text[i] == '.' || text[i] == '!')
+		if (text[i] == '.' || text[i] == '!' || text[i] == '?')
 		{
-			gotoxy(24, 10 + line_index);
+			gotoxy(24, 10 + which_line + line_index);
 			line_index++;
 		}
 		i++;
@@ -444,12 +488,17 @@ void Typewriter(string text, int which_line)
 	
 	Sleep(500);
 };
+// Funkcja generuj¹ca losowo dialog
+void GenerateDialogue(int which_line)
+{
+	Typewriter(GenerateData(dialogues_array, _countof(dialogues_array)), 4+which_line);
+}
 // Funkcja zmieniaj¹ca kolor tekstu
 void color(int color)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
-
+// Funkcja ustawiaj¹ca kursor w x i y
 void gotoxy(int x, int y)
 {
 	COORD c;
@@ -462,9 +511,10 @@ void ShowMenu()
 {
 	system("CLS");
 
-	bool played = PlaySound(TEXT("SoundTrack.wav"), NULL, SND_ASYNC | SND_LOOP);
+	bool played = PlaySound(TEXT("SoundTrackTwo.wav"), NULL, SND_LOOP | SND_ASYNC);
 
 	hidecursor();
+	cout << setfill(' ');
 
 	int starting_point_x = 20;
 	int starting_point_y = 5;
@@ -537,253 +587,538 @@ void ShowMenu()
 			Set[2] = hover_color;
 	}
 }
+// Funkcja wybieraj¹ca ending
+void Ending(int ending_index)
+{
+	system("CLS");
 
-bool CheckMistake(int choice, PASSPORT fake_passport, PASSPORT right_passport)
+	switch (ending_index)
+	{
+	case 0:
+		Typewriter("Twoja rodzina i Ty umieracie.Czasy byly ciezkie.Nie starczalo wam na dom i pozywienie.Kazdy z Was zaczynal chorowac z powodu panujacego w domu zimna.W chwili swojej smierci myslales sobie, ze dobrze wykonales swoja prace.Teraz wszyscy beda szczesliwi.");
+		break;
+	case 1:
+		Typewriter("Wykonywales swoja prace skrupulatnie i zgodnie z prawem.Nikt nie moze Ci zarzucic nieuczciwosci.Wiesz, ze postepowales dobrze.Twoja rodzina i Ty zyjecie godnie.Nie musisz sie juz wiecej martwic.");
+		break;
+	case 2:
+		Typewriter("Byles surowym inspektorem.Weszyles podstep w kazdym dokumencie, jaki dostales.Nie mogles odpuscic sobie wcisniecia przycisku ODMOWA.Wiesz, ze wypelniles swoje obowiazki az za dobrze.Siedzisz teraz sam w pustym domu i jestes z siebie dumny.");
+		break;
+	case 3:
+		Typewriter("Wiedziales, ze praca na granicy sprawi Ci wiele przykrosci.Tyle smutnych twarzy blagajacych Cie o wcisniecie przycisku UZNANO.Miales serce, zeby wpuszczac tych biednych ludzi, nawet za cene swojego zycia.Moze i nie zyjesz teraz w ciaglym dostatku, ale wiesz, ze spelniles swoja misje.Wiesz, ze uratowales wielu ludzi i dziekujesz Bogu za to, ze dal Ci taka szanse.");
+		break;
+	default:
+		ShowMenu();
+		break;
+	}
+	color(7);
+	Sleep(3000);
+	system("CLS");
+	Typewriter("Gra stworzona przez Kinge Grabarczyk.");
+	system("CLS");
+	Typewriter("Dziekuje za gre.");
+	ShowMenu();
+}
+// Funkcja sprawdzaj¹ca czy gracz poda³ dobry b³¹d
+bool CheckMistake(int choice, PASSPORT fake_passport, PASSPORT right_passport, ID_CARD fake_id_card, ID_CARD right_id_card)
 {
 	switch (choice)
 	{
 	case 1:
-		if (fake_passport.name == right_passport.name)
+		if (fake_passport.name == right_id_card.name && right_passport.name == fake_id_card.name)
 			return false;
 		break;
 	case 2:
-		if (fake_passport.surname == right_passport.surname)
+		if (fake_passport.surname == right_id_card.surname && right_passport.surname == fake_id_card.surname)
 			return false;
 		break;
 	case 3:
-		if (fake_passport.birth_date == right_passport.birth_date)
+		if (fake_passport.birth_date == right_id_card.birth_date && right_passport.birth_date == fake_id_card.birth_date)
+			return false;
+		if ((DayNumber == 3) && (CompareTheAge("03.02.1956", fake_passport.birth_date, 18, 65)) && (CompareTheAge("03.02.1956", fake_id_card.birth_date, 18, 65)))
 			return false;
 		break;
 	case 4:
-		if (fake_passport.country == right_passport.country)
+	{
+		if ((DayNumber == 1) && fake_passport.country != "Kavertia")
+			return true;
+		if (fake_passport.country == right_id_card.country && right_passport.country == fake_id_card.country)
 			return false;
 		break;
+	}
 	case 5:
-		if (fake_passport.code == right_passport.code)
+		if (fake_passport.code == right_id_card.code && right_passport.code == fake_id_card.code)
 			return false;
 		break;
+	default:
+		return false;
 	}
 	return true;
 }
-
-// Funkcja pokazuj¹ca menu g³ówne
-int ShowMenuForChoosingMistake(PASSPORT fake_passport, PASSPORT right_passport)
+// Funcja pokazuj¹ca dwa przyciski - ODMOWA i UZNANO
+bool LetIn()
 {
-	int choice;
-	int salary = 0;
+	system("CLS");
 
-	// Zrobiæ menu które wypisuje siê z tablicy!!!
-	cout << "1. imie\n";
-	cout << "2. nazwisko\n";
-	cout << "3. data urodzenia\n";
-	cout << "4. kraj\n";
-	cout << "5. kod\n";
-	cout << "6. Brak niezgodnosci\n";
-
-	bool mistake_is_here = false;
-
-	do
-	{
-		cout << "Wybierz opcje: ";
-		cin >> choice;
-		if (choice >= 1 && choice <= 6)
-		{
-			if (choice == 6)
-			{
-				cout << "W paszporcie nie ma zadnego bledu\n";
-				mistake_is_here = true;
-			}
-			else
-			{
-				mistake_is_here = CheckMistake(choice, fake_passport, right_passport);
-				if (mistake_is_here)
-					cout << "\nWykryto nezgodnosc\n";
-				else
-					cout << "\nNie wykryto nezgodnosci\n";
-			}
-		}
-		else
-			cout << "\nPodaj poprawna wartosc!\n";
-
-	} while (!mistake_is_here);
-
-	if (choice == 6 && (fake_passport.name != right_passport.name || fake_passport.surname != right_passport.surname || fake_passport.birth_date != right_passport.birth_date || fake_passport.country != right_passport.country || fake_passport.code != right_passport.code))
-	{
-		system("CLS");
-		Typewriter("Upomnienie. Dane petenta byly niezgodne. -5$");
-		salary -= 5;
-	}
-	else
-	{
-		system("CLS");
-		Typewriter("Poprawnie. +10$.");
-		salary += 10;
-	}
-	cout << endl;
-	return salary;
-}
-
-int TestingFunction()
-{
-	int main_color = 0;
-	int hover_color = 7;
+	int Set[] = { 7,7 }; // DEFAULT COLORS
 	int menu_width = 45;
 
 	int counter = 1;
 	char key;
 
+	int menu_y = 13;
+
 	for (int i = 0;;)
 	{
-		//gotoxy(100, 5);
+		gotoxy(50, 10);
+		color(Set[0]);
+		cout << "::::::::::";
+		gotoxy(50, 11);
+		cout << ": ODMOWA :";
+		gotoxy(50, 12);
+		cout << "::::::::::";
+
+		gotoxy(65, 10);
+		color(Set[1]);
+		cout << "::::::::::";
+		gotoxy(65, 11);
+		cout << ": UZNANO :";
+		gotoxy(65, 12);
+		cout << "::::::::::";
 
 		key = _getch();
 
-		if (key == 72 && (counter >= 2 && counter <= 3))
+		if (key == 75 && (counter == 2))
 			counter--;
-		if (key == 80 && (counter >= 1 && counter <= 2))
+		if (key == 77 && (counter == 1))
 			counter++;
 		if (key == '\r')
 		{
+			//Beep(500, 500);
+			Beep(120, 100);
+			color(7);
+			system("CLS");
 			if (counter == 1)
-			{
-				cout << "\n";
-				cout << "                   ";
-				cout << "\rSprawdz imie.";
-			}
+				return false;
 			if (counter == 2)
-			{
-				cout << "\n";
-				cout << "                   ";
-				cout << "\rSprawdz nazwisko.";
-			}
-			if (counter == 3)
-			{
-				cout << "\n";
-				cout << "                   ";
-				cout << "\rSprawdz wiek.";
-			}
+				return true;
 		}
 
-		cout << "\r";
-		cout << "                  ";
-		cout << "\r";
+		Set[0] = 7;
+		Set[1] = 7;
 
 		if (counter == 1)
-			cout << "Imie";
+			Set[0] = 4;
 		if (counter == 2)
-			cout << "Nazwisko";
-		if (counter == 3)
-			cout << "Wiek";
+			Set[1] = 2;
 	}
 }
+// Funkcje odpowiedzi na b³¹d
+int DocumentsIncorrectReminder(int salary)
+{
+	Typewriter("Upomnienie.Dane petenta byly niezgodne.-5$");
+	salary -= 5;
+	GoodEndingPoints++;
+	return salary;
+}
+int DocumentsCorrectReminder(int salary)
+{
+	Typewriter("Upomnienie.Dane petenta byly zgodne.-5$");
+	salary -= 5;
+	BadEndingPoints++;
+	return salary;
+}
+int NoReminder(int salary)
+{
+	Typewriter("Poprawnie.+10$.");
+	salary += 10;
+	NeutralEndingPoints++;
+	return salary;
+}
+// Funkcja pokazuj¹ca czy gracz wybra³ dobry b³¹d
+int ShowMenuForChoosingMistake(PASSPORT fake_passport, PASSPORT right_passport, ID_CARD fake_id_card, ID_CARD right_id_card)
+{
+	int choice = 1;
+	int salary = 0;
 
+	int how_many_data{};
+	if (DayNumber == 1)
+		how_many_data = _countof(passport_types_of_data_array_PL);
+	if (DayNumber >= 2 && DayNumber <= 4)
+		how_many_data = _countof(passport_and_id_types_of_data_array_PL);
+
+	bool mistake_is_here = false;
+
+	do
+	{
+		choice = SelectMistake(choice, how_many_data+1);
+		gotoxy(60, 21);
+		cout << "                                     ";
+		cout << "\r";
+			
+		if (choice == how_many_data+1)
+		{
+			gotoxy(60, 21);
+			cout << "W dokumentach nie ma zadnego bledu.";
+			mistake_is_here = true;
+		}
+		else
+		{
+			mistake_is_here = CheckMistake(choice, fake_passport, right_passport, fake_id_card, right_id_card);
+			gotoxy(60, 21);
+			if (mistake_is_here)
+			{
+				Beep(600, 200);
+				cout << "Wykryto niezgodnosc.";
+				gotoxy(60, 23);
+				Typewriter("> Te dane sie nie zgadzaja.", 9);
+			}
+			else
+			{
+				Beep(120, 50);
+				cout << "Nie wykryto niezgodnosci.";
+			}
+		}
+	} while (!mistake_is_here);
+	
+	system("CLS");
+	switch (DayNumber)
+	{
+	case 1:
+		if (LetIn())
+		{
+			if (fake_passport.country == "Kavertia")
+				salary = NoReminder(salary);
+			else
+				salary = DocumentsIncorrectReminder(salary);
+		}
+		else
+		{
+			if (fake_passport.country != "Kavertia")
+				salary = NoReminder(salary);
+			else
+				salary = DocumentsCorrectReminder(salary);
+		}
+		break;
+	case 2:
+		if (LetIn())
+		{
+			if ((fake_passport.name != right_id_card.name || fake_passport.surname != right_id_card.surname || fake_passport.birth_date != right_id_card.birth_date || fake_passport.country != right_id_card.country || fake_passport.code != right_id_card.code) || (right_passport.name != fake_id_card.name || fake_id_card.surname != right_passport.surname || fake_id_card.birth_date != right_passport.birth_date || fake_id_card.country != right_passport.country || fake_id_card.code != right_passport.code))
+				salary = DocumentsIncorrectReminder(salary);
+			else
+				salary = NoReminder(salary);
+		}
+		else
+		{
+			if ((fake_passport.name == right_id_card.name && fake_passport.surname == right_id_card.surname && fake_passport.birth_date == right_id_card.birth_date && fake_passport.country == right_id_card.country && fake_passport.code == right_id_card.code) && (right_passport.name == fake_id_card.name && right_passport.surname == fake_id_card.surname && right_passport.birth_date == fake_id_card.birth_date && right_passport.country == fake_id_card.country && right_passport.code == fake_id_card.code))
+				salary = DocumentsCorrectReminder(salary);
+			else
+				salary = NoReminder(salary);
+		}
+		break;
+	case 3:
+		if (LetIn())
+		{
+			if ((fake_passport.name != right_id_card.name || fake_passport.surname != right_id_card.surname || fake_passport.birth_date != right_id_card.birth_date || fake_passport.country != right_id_card.country || fake_passport.code != right_id_card.code) || (right_passport.name != fake_id_card.name || fake_id_card.surname != right_passport.surname || fake_id_card.birth_date != right_passport.birth_date || fake_id_card.country != right_passport.country || fake_id_card.code != right_passport.code) || (CompareTheAge("03.02.1956", fake_passport.birth_date, 18, 65)) || (CompareTheAge("03.02.1956", fake_id_card.birth_date, 18, 65)))
+				salary = DocumentsIncorrectReminder(salary);
+			else
+				salary = NoReminder(salary);
+		}
+		else
+		{
+			if ((fake_passport.name == right_id_card.name && fake_passport.surname == right_id_card.surname && fake_passport.birth_date == right_id_card.birth_date && fake_passport.country == right_id_card.country && fake_passport.code == right_id_card.code) && (right_passport.name == fake_id_card.name && right_passport.surname == fake_id_card.surname && right_passport.birth_date == fake_id_card.birth_date && right_passport.country == fake_id_card.country && right_passport.code == fake_id_card.code))
+				salary = DocumentsCorrectReminder(salary);
+			else
+				salary = NoReminder(salary);
+		}
+		break;
+	default:
+		cout << "Error.";
+	}
+	Sleep(500);
+	cout << endl;
+	return salary;
+}
+// Funckcja daj¹ca mo¿liwoœæ przeskakiwania miêdzy elementami dokumentów
+int SelectMistake(int counter, int how_many_data)
+{
+	char key;
+
+	for (int i = 0;;)
+	{
+		color(112);
+
+		key = _getch();
+
+		if (key == 72 && (counter > 1))
+			counter--;
+		if (key == 80 && (counter < how_many_data))
+			counter++;
+		if (key == '\r')
+		{
+			color(7);
+			return counter;
+		}
+
+		gotoxy(60, 20);
+		cout << "                  ";
+		cout << "\r";
+		gotoxy(60, 20);
+
+		for (int c = 1; c < how_many_data; c++)
+		{
+			if (counter == c)
+			{
+				if(DayNumber == 1)
+					cout << passport_types_of_data_array_PL[c - 1];
+				if (DayNumber >= 2 && DayNumber <= 4)
+					cout << passport_and_id_types_of_data_array_PL[c - 1];
+			}
+		}
+		if (counter == how_many_data)
+			cout << "Brak";
+	}
+}
+// Funkcja wypisuj¹ca na ekranie "nastêpny"
 void SayNext()
 {
 	system("CLS");
-	Typewriter("> Nastepny\n\n");
+	Typewriter("> Nastepny!");
 	system("CLS");
 }
-
+// G³ówna gra - ka¿dy dzieñ ma inny przepis prawny
 void DayChoose(int day_number)
 {
 	char key;
 	int salary = 0;
 	system("CLS");
 
-	//gotoxy(55, 3);
-	//cout << "TYGODNIK CODZIENNY" << endl;
-	Typewriter(" MAGAZYN CODZIENNY", -2);
+	ofstream file("data.txt");
+	file << DayNumber << endl << CoinsNumber << endl << NeutralEndingPoints << endl << GoodEndingPoints << endl << BadEndingPoints;
+	file.close();
+
+	Typewriter(" MAGAZYN CODZIENNY   ", -2);
+	cout << DayNumber << ". lutego 1956 roku";
 	WriteFromFileByIndex(DayNumber, "DayNews.txt");
 	system("CLS");
 
-	//gotoxy(50, 3);
-	//cout << "Dzien " << DayNumber << endl;
 	Typewriter(" DZIEN ", -2);
 	cout << DayNumber;
 	WriteFromFileByIndex(DayNumber, "DayRules.txt");
 	system("CLS");
-
+	//--------------------ROZPOCZECIE DNIA----------------------//
+	//----------------------------------------------------------//
 	Typewriter("> Rozpocznij dzien.\n");
 	do 
 	{
-		key = _getch();
-
+	key = _getch();
 	} while (key != '\r');
 
-		double seconds_since_start = 0;
-		auto time_start = time(0);
-
-		switch (day_number)
-		{
+	double seconds_since_start = 0;
+	auto time_start = time(0);
+	//------------------WYBÓR NUMERU DNIA-----------------------//
+	switch (day_number)
+	{
+		//-------DZIEÑ 1-------//
 		case 1:
 		{
 			do
 			{
 				SayNext();
 				Typewriter("> Dokumenty, prosze.");
-				Typewriter("Oto one.", 1);
+				Typewriter("Juz daje.", 1);
 				PASSPORT passport;
 				passport.GeneratePassport();
-				Typewriter("> Imie i nazwisko.", 2);
-				Typewriter(passport.name + " " + passport.surname, 3);
-				cout << endl << endl;	
-				
-				//ID_CARD id_card = { passport.name, passport.surname, passport.birth_date, passport.country };
-				//id_card.GenerateIdCard();
-				
-				cout << endl << endl;
-				PASSPORT fake_passport;
-				fake_passport = PassportMistakeGenerator(passport);
-				fake_passport.PrintPassport();
+				ID_CARD id_card = { passport.name, passport.surname, passport.birth_date, passport.country, " ", " ", passport.code };
+				id_card.GenerateIdCard();
+				GenerateDialogue(-2);
+				passport.PrintPassport();
 
-				//salary += ShowMenuForChoosingMistake(fake_passport, passport);
-				
-				TestingFunction();
-				//cout << endl << endl;
-				//id_card.PrintIdCard();
-				system("pause");
-
+				salary += ShowMenuForChoosingMistake(passport, passport, id_card, id_card);
 				seconds_since_start = difftime(time(0), time_start);
 
 			} while (seconds_since_start < 60);
 			break;
 		}
+		//-------DZIEÑ 2-------//
 		case 2:
 		{
 			do
 			{
 				SayNext();
 				Typewriter("> Dokumenty, prosze.");
-				cout << endl << endl;
+				Typewriter("Tutaj sa.", 1);
 				PASSPORT passport;
 				passport.GeneratePassport();
-				passport.PrintPassport();
-				cout << endl << endl;
-				system("pause");
+				Typewriter("> Imie i nazwisko.", 2);
+				Typewriter(passport.name + " " + passport.surname, 3);
+				GenerateDialogue(0);
+
+				ID_CARD id_card = { passport.name, passport.surname, passport.birth_date, passport.country, " ", " ", passport.code };
+				id_card.GenerateIdCard();
+				PASSPORT fake_passport;
+				ID_CARD fake_id_card;
+
+				switch (GenerateRandomNumber(3))
+				{
+					// Paszport jest niezgodny
+					case 1:
+						fake_passport = PassportMistakeGenerator(passport);
+						fake_passport.PrintPassport();
+						id_card.PrintIdCard();
+						salary += ShowMenuForChoosingMistake(fake_passport, passport, id_card, id_card);
+						break;
+					// Dowód jest niezgodny
+					case 2:
+						fake_id_card = IdCardMistakeGenerator(id_card);
+						fake_id_card.PrintIdCard();
+						passport.PrintPassport();
+						salary += ShowMenuForChoosingMistake(passport, passport, fake_id_card, id_card);
+						break;
+					default:
+						fake_passport = passport;
+						fake_passport.PrintPassport();
+						fake_id_card = id_card;
+						fake_id_card.PrintIdCard();
+						salary += ShowMenuForChoosingMistake(fake_passport, passport, fake_id_card, id_card);
+						break;
+				}
+				seconds_since_start = difftime(time(0), time_start);
+
+			} while (seconds_since_start < 120);
+			break;
+		}
+		//-------DZIEÑ 3-------//
+		case 3:
+			do
+			{
+				SayNext();
+				Typewriter("> Dokumenty, prosze.");
+				Typewriter("Oto moj paszport i dowod.", 1);
+				PASSPORT passport;
+				passport.GeneratePassport();
+				Typewriter("> Imie i nazwisko.", 2);
+				Typewriter(passport.name + " " + passport.surname, 3);
+				GenerateDialogue(0);
+
+				ID_CARD id_card = { passport.name, passport.surname, passport.birth_date, passport.country, " ", " ", passport.code };
+				id_card.GenerateIdCard();
+				PASSPORT fake_passport;
+				ID_CARD fake_id_card;
+
+				switch (GenerateRandomNumber(3))
+				{
+					// Paszport jest niezgodny
+				case 1:
+					fake_passport = PassportMistakeGenerator(passport);
+					fake_passport.PrintPassport();
+					id_card.PrintIdCard();
+					salary += ShowMenuForChoosingMistake(fake_passport, passport, id_card, id_card);
+					break;
+					// Dowód jest niezgodny
+				case 2:
+					fake_id_card = IdCardMistakeGenerator(id_card);
+					fake_id_card.PrintIdCard();
+					passport.PrintPassport();
+					salary += ShowMenuForChoosingMistake(passport, passport, fake_id_card, id_card);
+					break;
+				default:
+					fake_passport = passport;
+					fake_passport.PrintPassport();
+					fake_id_card = id_card;
+					fake_id_card.PrintIdCard();
+					salary += ShowMenuForChoosingMistake(fake_passport, passport, fake_id_card, id_card);
+					break;
+				}
+				seconds_since_start = difftime(time(0), time_start);
+
+			} while (seconds_since_start < 160);
+			break;
+		//-------DZIEÑ 5-------//
+		case 5:
+			do
+			{
+				SayNext();
+				Typewriter("> Dokumenty, prosze.");
+				Typewriter("Juz daje.", 1);
+				PASSPORT passport;
+				passport.GeneratePassport();
+				Typewriter("> Imie i nazwisko.", 2);
+				Typewriter(passport.name + " " + passport.surname, 3);
+				GenerateDialogue(0);
+
+				PASSPORT fake_passport;
+				fake_passport = PassportMistakeGenerator(passport);
+				fake_passport.PrintPassport();
+				ID_CARD id_card = { passport.name, passport.surname, passport.birth_date, passport.country, " ", " ", passport.code };
+				id_card.GenerateIdCard();
+				id_card.PrintIdCard();
+				BRAIN_TEST brain_test = { passport.name, passport.surname };
+				brain_test.GenerateIdCard();
+				brain_test.PrintBrainTest();
+
+				salary += ShowMenuForChoosingMistake(fake_passport, passport, id_card, id_card);
 
 				seconds_since_start = difftime(time(0), time_start);
 
-			} while (seconds_since_start < 10);
+			} while (seconds_since_start < 240);
 			break;
+		//-------DZIEÑ 7-------//
+		case 7:
+		{
+			color(112);
+			if ((GoodEndingPoints > NeutralEndingPoints) && (GoodEndingPoints > BadEndingPoints))
+				Ending(3);
+			else if ((BadEndingPoints > GoodEndingPoints) && (BadEndingPoints > NeutralEndingPoints))
+				Ending(2);
+			else
+				Ending(1);
 		}
 		default:
 		{
 			ShowMenu();
 			break;
 		}
-		}
-		cout << endl;
-		system("CLS");
-		gotoxy(40, 5);
-		cout << "Koniec dnia!\n\n";
-		gotoxy(40, 7);
-		cout << "Zarobiles " << salary << "$";
-		cout << endl << endl;
-		CoinsNumber += salary;
+	}
+	//------------------------KONIEC DNIA-----------------------//
+	//----------------------------------------------------------//
 
-		DayNumber++;
-
-		system("pause");
-		cout << endl;
-		DayChoose(DayNumber);
+	system("CLS");
+	Sleep(500);
+	Typewriter("Koniec dnia!");
+	//--------------------PODSUMOWANIE DNIA--------------------//
+	color(112);
+	Typewriter("Oszczednosci          ", 4);
+	cout << "+" << CoinsNumber << "$";
+	Typewriter("Zarobiles             ", 6);
+	cout << "+" << salary << "$";
+	Typewriter("Ogrzewanie            ", 8);
+	cout << "-5$";
+	Typewriter("Czynsz                ", 10);
+	cout << "-10$";
+	Typewriter("Zywnosc               ", 12);
+	cout << "-10$";
+	CoinsNumber = CoinsNumber + salary - 25;
+	Typewriter("Razem                 ", 14);
+	cout << CoinsNumber << "$";
+	Typewriter("Rodzina               ", 16);
+	if (CoinsNumber > 50)
+		cout << "Dobrze";
+	else if (CoinsNumber >= 20 && CoinsNumber <= 50)
+		cout << "OK";
+	else if (CoinsNumber < 20 && CoinsNumber > 0)
+		cout << "Zle";
+	else if (CoinsNumber <= 0)
+	{
+		color(7);
+		Ending(0);
+	}
+	color(7);
+	//-------------------------------------------------------//
+	Typewriter("Kontynuuj >", 18);
+	do
+	{
+	key = _getch();
+	} while (key != '\r');
+	DayNumber++;
+	DayChoose(DayNumber);
 }
