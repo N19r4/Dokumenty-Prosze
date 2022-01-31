@@ -16,7 +16,7 @@ using namespace std;
 
 string name_array[] = { "Grigorij", "Nikolai", "Marika", "Paul", "Katrina", "Eva", "Dimitr", "Anna", "Francesca", "Alexandr", "Kristof", "Eric", "Vladimir", "Alisa", "Andrei", "Nastya", "Misha", "Mariya", "Peter", "Aleksandra", "Lev", "Kostya", "Boris", "Rodion", "Anatoli", "Efrosin", "Isaak", "Anushka", "Radianka", "Mikhail", "Wilhelmine", "Jochem", "Luther", "Vogel" };
 string surname_array[] = { "Kovalev", "Webov", "Gitarov", "Kaczmarov", "Ginter", "Russ", "Schumann", "Guttman", "Mikhaylov", "Morozov", "Vlasov", "Petrov", "Vasiliev", "Lebedev", "Sokolovic", "Kuzumin", "Bogdanovic", "Pushkin", "Sitz", "Fredrich", "Vonnegut", "Eichel", "Sommer", "Roth", "Neumann", "Shulz", "Hofmann", "Waltz" };
-string birth_date_array[] = { "23.04.1926", "12.09.1939", "01.05.1922", "11.07.1918", "09.09.1910", "05.07.1906", "23.12.1940", "13.06.1919", "19.08.1941", "04.08.1913", "29.01.1935", "09.11.1933", "01.09.1907", "07.10.1923", "17.03.1932" };
+string birth_date_array[] = { "23.04.1926", "12.09.1939", "01.05.1922", "11.07.1918", "09.09.1910", "05.07.1906", "23.12.1940", "13.06.1919", "19.08.1941", "04.08.1913", "29.01.1935", "09.11.1933", "01.09.1907", "07.10.1923", "17.03.1932", "04.07.1945", "01.01.1943", "05.11.1939", "07.08.1939", "26.04.1940"};
 string country_array[] = { "Kavertia", "Derad", "Ugratia", "Kolosia", "Mamaika", "West Mastern", "Paladia", "East Retkorn"};
 string code_array[] = { "RGRD2-WTGDF-A674F", "DDFF2-RTVV9-89DFD", "RERG1-JYUJT-56G45", "3454F-9D9FG-SDF98", "DF98G-SDUFI-DF98G", "S98UF-SD9FD-0FGIB", "I3HI4-234BJ-23JKK", "GE8U9-REBRR-QWE78", "29HR9-BQ7E8-QNWOE", "9W9EH-EIWEU-QI2UE", "QUY28-08QXC-34HT7", "FN9FW-BMF9G-WJ9E8", "B8374-2I3RN-IEWUW", "Q09IJ-B2383-IN5TI", "B874B-VHW8E-N2O33", "98GJF-23IEN-19OIR", "09DIF-ASUDH-08NO3", "09IVX-WNE8R-2N398", "2N3O4-IJ8FD-3WJNK" };
 string weight_array[] = { "64", "56", "90", "37", "58", "41", "98", "34", "94", "86", "65", "62", "75", "68", "49", "79", "62", "61", "70", "78", "53", "51", "48" };
@@ -24,7 +24,7 @@ string height_array[] = { "174", "167", "198", "179", "180", "159", "163", "190"
 string iq_array[] = { "98", "123", "145", "87", "198", "130", "142" };
 string expected_profession_array[] = { "mechanik", "naukowiec", "lekarz", "nauczyciel", "budowlaniec", "sekretarz", "sprzatacz", "piekarz", "sprzedawca", "psycholog", "tkacz", "bard", "ksiegowy", "bednarz", "grabarz", "policjant", "kowal", "urzednik", "wozny", "katecheta" };
 
-string passport_types_of_data_array[] = { "name", "surname", "birth_date", "country", "code"};
+string passport_types_of_data_array[] = { "name", "surname", "birth_date", "code", "country" };
 string id_card_types_of_data_array[] = { "name", "surname", "birth_date", "country", "height", "weight", "code"};
 string dialogues_array[] = {"Jestescie dobrzy.Przepuscicie mnie?", "I jak tam sie zyje?Dobrze?", "Wracam do Kavertii.To wspanialy kraj!", "Blagam.Przepuscie mnie!Moj syn choruje.Musze sie tam dostac.", "Macie pozyczyc 5$?", "Prosze, przepuscie mnie!", "Nie daje juz rady.", "Zlitujcie sie nade mna!Musze wejsc!", "Niech zyje Kavertia!", " ", "Wszystko jest poprawnie?", "Czy tam jest tak dobrze?", "Badzcie dla mnie laskawi!", "Ja tylko przejazdem.", "Wracam do rodziny."};
 
@@ -188,7 +188,7 @@ string LetterChanger(string text_to_change)
 	text_to_change[letter_index] = random_letter;
 	return text_to_change;
 }
-bool CompareTheAge(string date1, string date2, int min_age, int max_age)
+bool IsAgeOK(string date1, string date2, int min_age, int max_age)
 {
 	int age1 = stoi(date1.substr(8));
 	int age2 = stoi(date2.substr(8));
@@ -280,9 +280,9 @@ void GenerateDialogue(int which_line);
 void color(int color);
 void ShowMenu();
 void Ending(int ending_index);
-bool CheckMistake(int choice, PASSPORT fake_passport, PASSPORT right_passport, ID_CARD fake_id_card, ID_CARD right_id_card);
+bool CheckIfMistakeIsHere(int choice, PASSPORT fake_passport, ID_CARD fake_id_card);
 bool LetIn();
-int ShowMenuForChoosingMistake(PASSPORT fake_passport, PASSPORT right_passport, ID_CARD fake_id_card, ID_CARD right_id_card);
+int ShowMenuForChoosingMistake(PASSPORT fake_passport, ID_CARD fake_id_card);
 int SelectMistake(int counter, int how_many_data);
 void SayNext();
 void DayChoose(int day_number);
@@ -618,35 +618,43 @@ void Ending(int ending_index)
 	Typewriter("Dziekuje za gre.");
 	ShowMenu();
 }
+bool CheckIfMistakeInAllDocuments(PASSPORT fake_passport, ID_CARD fake_id_card)
+{
+	if ((fake_passport.name == fake_id_card.name) && (fake_passport.surname == fake_id_card.surname) && (fake_passport.birth_date == fake_id_card.birth_date) && (fake_passport.country == fake_id_card.country) && (fake_passport.code == fake_id_card.code))
+		return false;
+	else
+		return true;
+}
 // Funkcja sprawdzaj¹ca czy gracz poda³ dobry b³¹d
-bool CheckMistake(int choice, PASSPORT fake_passport, PASSPORT right_passport, ID_CARD fake_id_card, ID_CARD right_id_card)
+// Zwraca false jesli bledu nie ma, zwraca true jesli blad jest
+bool CheckIfMistakeIsHere(int choice, PASSPORT fake_passport, ID_CARD fake_id_card)
 {
 	switch (choice)
 	{
 	case 1:
-		if (fake_passport.name == right_id_card.name && right_passport.name == fake_id_card.name)
+		if (fake_passport.name == fake_id_card.name)
 			return false;
 		break;
 	case 2:
-		if (fake_passport.surname == right_id_card.surname && right_passport.surname == fake_id_card.surname)
+		if (fake_passport.surname == fake_id_card.surname)
 			return false;
 		break;
 	case 3:
-		if (fake_passport.birth_date == right_id_card.birth_date && right_passport.birth_date == fake_id_card.birth_date)
-			return false;
-		if ((DayNumber == 3) && (CompareTheAge("03.02.1956", fake_passport.birth_date, 18, 65)) && (CompareTheAge("03.02.1956", fake_id_card.birth_date, 18, 65)))
+		if ((DayNumber == 3) && (!(IsAgeOK("03.02.1956", fake_passport.birth_date, 18, 65)) || !(IsAgeOK("03.02.1956", fake_id_card.birth_date, 18, 65))))
+			return true;
+		if (fake_passport.birth_date == fake_id_card.birth_date)
 			return false;
 		break;
 	case 4:
 	{
 		if ((DayNumber == 1) && fake_passport.country != "Kavertia")
 			return true;
-		if (fake_passport.country == right_id_card.country && right_passport.country == fake_id_card.country)
+		if (fake_passport.country == fake_id_card.country)
 			return false;
 		break;
 	}
 	case 5:
-		if (fake_passport.code == right_id_card.code && right_passport.code == fake_id_card.code)
+		if (fake_passport.code == fake_id_card.code)
 			return false;
 		break;
 	default:
@@ -735,7 +743,7 @@ int NoReminder(int salary)
 	return salary;
 }
 // Funkcja pokazuj¹ca czy gracz wybra³ dobry b³¹d
-int ShowMenuForChoosingMistake(PASSPORT fake_passport, PASSPORT right_passport, ID_CARD fake_id_card, ID_CARD right_id_card)
+int ShowMenuForChoosingMistake(PASSPORT fake_passport, ID_CARD fake_id_card)
 {
 	int choice = 1;
 	int salary = 0;
@@ -763,7 +771,7 @@ int ShowMenuForChoosingMistake(PASSPORT fake_passport, PASSPORT right_passport, 
 		}
 		else
 		{
-			mistake_is_here = CheckMistake(choice, fake_passport, right_passport, fake_id_card, right_id_card);
+			mistake_is_here = CheckIfMistakeIsHere(choice, fake_passport, fake_id_card);
 			gotoxy(60, 21);
 			if (mistake_is_here)
 			{
@@ -786,14 +794,14 @@ int ShowMenuForChoosingMistake(PASSPORT fake_passport, PASSPORT right_passport, 
 	case 1:
 		if (LetIn())
 		{
-			if (fake_passport.country == "Kavertia")
-				salary = NoReminder(salary);
-			else
+			if ((CheckIfMistakeIsHere(4, fake_passport, fake_id_card)))
 				salary = DocumentsIncorrectReminder(salary);
+			else
+				salary = NoReminder(salary);
 		}
 		else
 		{
-			if (fake_passport.country != "Kavertia")
+			if ((CheckIfMistakeIsHere(4, fake_passport, fake_id_card)))
 				salary = NoReminder(salary);
 			else
 				salary = DocumentsCorrectReminder(salary);
@@ -802,33 +810,33 @@ int ShowMenuForChoosingMistake(PASSPORT fake_passport, PASSPORT right_passport, 
 	case 2:
 		if (LetIn())
 		{
-			if ((fake_passport.name != right_id_card.name || fake_passport.surname != right_id_card.surname || fake_passport.birth_date != right_id_card.birth_date || fake_passport.country != right_id_card.country || fake_passport.code != right_id_card.code) || (right_passport.name != fake_id_card.name || fake_id_card.surname != right_passport.surname || fake_id_card.birth_date != right_passport.birth_date || fake_id_card.country != right_passport.country || fake_id_card.code != right_passport.code))
+			if (CheckIfMistakeInAllDocuments(fake_passport, fake_id_card))
 				salary = DocumentsIncorrectReminder(salary);
 			else
 				salary = NoReminder(salary);
 		}
 		else
 		{
-			if ((fake_passport.name == right_id_card.name && fake_passport.surname == right_id_card.surname && fake_passport.birth_date == right_id_card.birth_date && fake_passport.country == right_id_card.country && fake_passport.code == right_id_card.code) && (right_passport.name == fake_id_card.name && right_passport.surname == fake_id_card.surname && right_passport.birth_date == fake_id_card.birth_date && right_passport.country == fake_id_card.country && right_passport.code == fake_id_card.code))
-				salary = DocumentsCorrectReminder(salary);
-			else
+			if (CheckIfMistakeInAllDocuments(fake_passport, fake_id_card))
 				salary = NoReminder(salary);
+			else
+				salary = DocumentsCorrectReminder(salary);
 		}
 		break;
 	case 3:
 		if (LetIn())
 		{
-			if ((fake_passport.name != right_id_card.name || fake_passport.surname != right_id_card.surname || fake_passport.birth_date != right_id_card.birth_date || fake_passport.country != right_id_card.country || fake_passport.code != right_id_card.code) || (right_passport.name != fake_id_card.name || fake_id_card.surname != right_passport.surname || fake_id_card.birth_date != right_passport.birth_date || fake_id_card.country != right_passport.country || fake_id_card.code != right_passport.code) || (CompareTheAge("03.02.1956", fake_passport.birth_date, 18, 65)) || (CompareTheAge("03.02.1956", fake_id_card.birth_date, 18, 65)))
+			if (CheckIfMistakeInAllDocuments(fake_passport, fake_id_card) || (CheckIfMistakeIsHere(3, fake_passport, fake_id_card)))
 				salary = DocumentsIncorrectReminder(salary);
 			else
 				salary = NoReminder(salary);
 		}
 		else
 		{
-			if ((fake_passport.name == right_id_card.name && fake_passport.surname == right_id_card.surname && fake_passport.birth_date == right_id_card.birth_date && fake_passport.country == right_id_card.country && fake_passport.code == right_id_card.code) && (right_passport.name == fake_id_card.name && right_passport.surname == fake_id_card.surname && right_passport.birth_date == fake_id_card.birth_date && right_passport.country == fake_id_card.country && right_passport.code == fake_id_card.code))
-				salary = DocumentsCorrectReminder(salary);
-			else
+			if (CheckIfMistakeInAllDocuments(fake_passport, fake_id_card) || (CheckIfMistakeIsHere(3, fake_passport, fake_id_card)))
 				salary = NoReminder(salary);
+			else
+				salary = DocumentsCorrectReminder(salary);
 		}
 		break;
 	default:
@@ -899,11 +907,13 @@ void DayChoose(int day_number)
 	Typewriter(" MAGAZYN CODZIENNY   ", -2);
 	cout << DayNumber << ". lutego 1956 roku";
 	WriteFromFileByIndex(DayNumber, "DayNews.txt");
+	Sleep(1000);
 	system("CLS");
 
 	Typewriter(" DZIEN ", -2);
 	cout << DayNumber;
 	WriteFromFileByIndex(DayNumber, "DayRules.txt");
+	Sleep(1000);
 	system("CLS");
 	//--------------------ROZPOCZECIE DNIA----------------------//
 	//----------------------------------------------------------//
@@ -933,7 +943,7 @@ void DayChoose(int day_number)
 				GenerateDialogue(-2);
 				passport.PrintPassport();
 
-				salary += ShowMenuForChoosingMistake(passport, passport, id_card, id_card);
+				salary += ShowMenuForChoosingMistake(passport, id_card);
 				seconds_since_start = difftime(time(0), time_start);
 
 			} while (seconds_since_start < 60);
@@ -965,21 +975,19 @@ void DayChoose(int day_number)
 						fake_passport = PassportMistakeGenerator(passport);
 						fake_passport.PrintPassport();
 						id_card.PrintIdCard();
-						salary += ShowMenuForChoosingMistake(fake_passport, passport, id_card, id_card);
+						salary += ShowMenuForChoosingMistake(fake_passport, id_card);
 						break;
 					// Dowód jest niezgodny
 					case 2:
 						fake_id_card = IdCardMistakeGenerator(id_card);
 						fake_id_card.PrintIdCard();
 						passport.PrintPassport();
-						salary += ShowMenuForChoosingMistake(passport, passport, fake_id_card, id_card);
+						salary += ShowMenuForChoosingMistake(passport, fake_id_card);
 						break;
 					default:
-						fake_passport = passport;
-						fake_passport.PrintPassport();
-						fake_id_card = id_card;
-						fake_id_card.PrintIdCard();
-						salary += ShowMenuForChoosingMistake(fake_passport, passport, fake_id_card, id_card);
+						passport.PrintPassport();
+						id_card.PrintIdCard();
+						salary += ShowMenuForChoosingMistake(passport,id_card);
 						break;
 				}
 				seconds_since_start = difftime(time(0), time_start);
@@ -1012,21 +1020,19 @@ void DayChoose(int day_number)
 					fake_passport = PassportMistakeGenerator(passport);
 					fake_passport.PrintPassport();
 					id_card.PrintIdCard();
-					salary += ShowMenuForChoosingMistake(fake_passport, passport, id_card, id_card);
+					salary += ShowMenuForChoosingMistake(fake_passport, id_card);
 					break;
 					// Dowód jest niezgodny
 				case 2:
 					fake_id_card = IdCardMistakeGenerator(id_card);
 					fake_id_card.PrintIdCard();
 					passport.PrintPassport();
-					salary += ShowMenuForChoosingMistake(passport, passport, fake_id_card, id_card);
+					salary += ShowMenuForChoosingMistake(passport, fake_id_card);
 					break;
 				default:
-					fake_passport = passport;
-					fake_passport.PrintPassport();
-					fake_id_card = id_card;
-					fake_id_card.PrintIdCard();
-					salary += ShowMenuForChoosingMistake(fake_passport, passport, fake_id_card, id_card);
+					passport.PrintPassport();
+					id_card.PrintIdCard();
+					salary += ShowMenuForChoosingMistake(passport, id_card);
 					break;
 				}
 				seconds_since_start = difftime(time(0), time_start);
@@ -1056,7 +1062,7 @@ void DayChoose(int day_number)
 				brain_test.GenerateIdCard();
 				brain_test.PrintBrainTest();
 
-				salary += ShowMenuForChoosingMistake(fake_passport, passport, id_card, id_card);
+				salary += ShowMenuForChoosingMistake(fake_passport, id_card);
 
 				seconds_since_start = difftime(time(0), time_start);
 
