@@ -190,7 +190,7 @@ string LetterChanger(string text_to_change)
 }
 bool IsAgeOK(string date1, string date2, int min_age, int max_age)
 {
-	int age1 = stoi(date1.substr(8));
+	int age1 = stoi(date1);
 	int age2 = stoi(date2.substr(8));
 
 	if (age1 - age2 > 0)
@@ -208,6 +208,13 @@ bool IsAgeOK(string date1, string date2, int min_age, int max_age)
 			return false;
 	}
 
+}
+bool IsBmiOK(string data, int min, int max)
+{
+	if (stoi(data) >= min && stoi(data) <= max)
+		return true;
+	else
+		return false;
 }
 
 // Generator b³êdu dla paszportu
@@ -398,9 +405,9 @@ void PlayGame()
 		color(Set[1]);
 		cout << setw(menu_width + 1) << "KONTYNUUJ GRE";
 
-		gotoxy(24, menu_y + 2);
+		gotoxy(24, menu_y+2);
 		color(Set[2]);
-		cout << setw(menu_width - 3) << "POWROT";
+		cout << setw(menu_width + 1) << "POWROT DO MENU";
 
 		key = _getch();
 
@@ -458,7 +465,8 @@ void NewGame()
 {
 	InitializeGame();
 	system("CLS");
-	Typewriter("Witajcie obywatelu!Zostala wam przydzielona funkcja inspektora imigracyjnego.Macie za zadanie sprawdzac dokumenty kazdego petenta.Pilnujcie przepisow!Sprawujcie sie dobrze.NIECH ZYJE KAVERTIA!");
+	Typewriter("Witajcie obywatelu!Zostala wam przydzielona funkcja inspektora imigracyjnego.Macie za zadanie sprawdzac dokumenty kazdego petenta.Pilnujcie przepisow!Sprawujcie sie dobrze. I NIECH ZYJE KAVERTIA!");
+	Sleep(1000);
 	system("CLS");
 	
 	DayChoose(DayNumber);
@@ -640,7 +648,7 @@ bool CheckIfMistakeIsHere(int choice, PASSPORT fake_passport, ID_CARD fake_id_ca
 			return false;
 		break;
 	case 3:
-		if ((DayNumber == 3) && (!(IsAgeOK("03.02.1956", fake_passport.birth_date, 18, 65)) || !(IsAgeOK("03.02.1956", fake_id_card.birth_date, 18, 65))))
+		if ((DayNumber == 3) && (!(IsAgeOK("56", fake_passport.birth_date, 18, 65)) || !(IsAgeOK("56", fake_id_card.birth_date, 18, 65))))
 			return true;
 		if (fake_passport.birth_date == fake_id_card.birth_date)
 			return false;
@@ -655,6 +663,18 @@ bool CheckIfMistakeIsHere(int choice, PASSPORT fake_passport, ID_CARD fake_id_ca
 	}
 	case 5:
 		if (fake_passport.code == fake_id_card.code)
+			return false;
+		break;
+	case 6:
+		if ((DayNumber == 4) && !(IsBmiOK(fake_id_card.weight, 0, 80)))
+			return true;
+		else
+			return false;
+		break;
+	case 7:
+		if ((DayNumber == 4) && !(IsBmiOK(fake_id_card.height, 150, 200)))
+			return true;
+		else
 			return false;
 		break;
 	default:
@@ -702,7 +722,7 @@ bool LetIn()
 		if (key == '\r')
 		{
 			//Beep(500, 500);
-			Beep(120, 100);
+			Beep(120, 150);
 			color(7);
 			system("CLS");
 			if (counter == 1)
@@ -766,7 +786,8 @@ int ShowMenuForChoosingMistake(PASSPORT fake_passport, ID_CARD fake_id_card)
 		if (choice == how_many_data+1)
 		{
 			gotoxy(60, 21);
-			cout << "W dokumentach nie ma zadnego bledu.";
+			cout << "W dokumentach nie ma bledu.";
+			Sleep(1000);
 			mistake_is_here = true;
 		}
 		else
@@ -834,6 +855,22 @@ int ShowMenuForChoosingMistake(PASSPORT fake_passport, ID_CARD fake_id_card)
 		else
 		{
 			if (CheckIfMistakeInAllDocuments(fake_passport, fake_id_card) || (CheckIfMistakeIsHere(3, fake_passport, fake_id_card)))
+				salary = NoReminder(salary);
+			else
+				salary = DocumentsCorrectReminder(salary);
+		}
+		break;
+	case 4:
+		if (LetIn())
+		{
+			if (CheckIfMistakeInAllDocuments(fake_passport, fake_id_card) || (CheckIfMistakeIsHere(3, fake_passport, fake_id_card)) || (CheckIfMistakeIsHere(6, fake_passport, fake_id_card)) || (CheckIfMistakeIsHere(7, fake_passport, fake_id_card)))
+				salary = DocumentsIncorrectReminder(salary);
+			else
+				salary = NoReminder(salary);
+		}
+		else
+		{
+			if (CheckIfMistakeInAllDocuments(fake_passport, fake_id_card) || (CheckIfMistakeIsHere(3, fake_passport, fake_id_card)) || (CheckIfMistakeIsHere(6, fake_passport, fake_id_card)) || (CheckIfMistakeIsHere(7, fake_passport, fake_id_card)))
 				salary = NoReminder(salary);
 			else
 				salary = DocumentsCorrectReminder(salary);
@@ -997,6 +1034,7 @@ void DayChoose(int day_number)
 		}
 		//-------DZIEÑ 3-------//
 		case 3:
+		{
 			do
 			{
 				SayNext();
@@ -1039,6 +1077,53 @@ void DayChoose(int day_number)
 
 			} while (seconds_since_start < 160);
 			break;
+		}
+		//-------DZIEÑ 4-------//
+		case 4:
+		{
+			do
+			{
+				SayNext();
+				Typewriter("> Dokumenty, prosze.");
+				Typewriter("Prosze.", 1);
+				PASSPORT passport;
+				passport.GeneratePassport();
+				Typewriter("> Imie i nazwisko.", 2);
+				Typewriter(passport.name + " " + passport.surname, 3);
+				GenerateDialogue(0);
+
+				ID_CARD id_card = { passport.name, passport.surname, passport.birth_date, passport.country, " ", " ", passport.code };
+				id_card.GenerateIdCard();
+				PASSPORT fake_passport;
+				ID_CARD fake_id_card;
+
+				switch (GenerateRandomNumber(3))
+				{
+					// Paszport jest niezgodny
+				case 1:
+					fake_passport = PassportMistakeGenerator(passport);
+					fake_passport.PrintPassport();
+					id_card.PrintIdCard();
+					salary += ShowMenuForChoosingMistake(fake_passport, id_card);
+					break;
+					// Dowód jest niezgodny
+				case 2:
+					fake_id_card = IdCardMistakeGenerator(id_card);
+					fake_id_card.PrintIdCard();
+					passport.PrintPassport();
+					salary += ShowMenuForChoosingMistake(passport, fake_id_card);
+					break;
+				default:
+					passport.PrintPassport();
+					id_card.PrintIdCard();
+					salary += ShowMenuForChoosingMistake(passport, id_card);
+					break;
+				}
+				seconds_since_start = difftime(time(0), time_start);
+
+			} while (seconds_since_start < 300);
+			break;
+		}
 		//-------DZIEÑ 5-------//
 		case 5:
 			do
@@ -1098,18 +1183,18 @@ void DayChoose(int day_number)
 	Typewriter("Zarobiles             ", 6);
 	cout << "+" << salary << "$";
 	Typewriter("Ogrzewanie            ", 8);
-	cout << "-5$";
+	cout << "-10$";
 	Typewriter("Czynsz                ", 10);
-	cout << "-10$";
+	cout << "-20$";
 	Typewriter("Zywnosc               ", 12);
-	cout << "-10$";
+	cout << "-15$";
 	CoinsNumber = CoinsNumber + salary - 25;
 	Typewriter("Razem                 ", 14);
 	cout << CoinsNumber << "$";
 	Typewriter("Rodzina               ", 16);
-	if (CoinsNumber > 50)
+	if (CoinsNumber > 70)
 		cout << "Dobrze";
-	else if (CoinsNumber >= 20 && CoinsNumber <= 50)
+	else if (CoinsNumber >= 20 && CoinsNumber <= 70)
 		cout << "OK";
 	else if (CoinsNumber < 20 && CoinsNumber > 0)
 		cout << "Zle";
