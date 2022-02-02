@@ -8,6 +8,7 @@
 #include <windows.h>
 #include <iomanip>
 #include <string>
+#include <locale.h>
 
 using namespace std;
 

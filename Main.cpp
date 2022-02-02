@@ -15,6 +15,7 @@
 #include <iomanip>
 #include <string>
 #include <conio.h>
+#include <locale.h>
 #include "Nag³ówek.h"
 
 using namespace std;
@@ -24,6 +25,7 @@ using namespace std;
 // Program g³ówny
 int main()
 {
+	setlocale(LC_CTYPE, "Polish");
 	ShowMenu();
 	system("pause");
 }

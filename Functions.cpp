@@ -8,6 +8,7 @@
 #include <string>
 //#include <chrono>
 #include <conio.h>
+#include <locale.h>
 #include "Nag³ówek.h"
 
 using namespace std;
@@ -22,16 +23,16 @@ string code_array[] = { "RGRD2-WTGDF-A674F", "DDFF2-RTVV9-89DFD", "RERG1-JYUJT-5
 string weight_array[] = { "64", "56", "90", "37", "58", "41", "98", "34", "94", "86", "65", "62", "75", "68", "49", "79", "62", "61", "70", "78", "53", "51", "48" };
 string height_array[] = { "174", "167", "198", "179", "180", "159", "163", "190", "197", "143", "172", "153", "187", "162", "157", "194", "134", "161", "171", "129", "133", "182"};
 string iq_array[] = { "98", "123", "145", "87", "198", "130", "142" };
-string expected_profession_array[] = { "mechanik", "naukowiec", "lekarz", "nauczyciel", "budowlaniec", "sekretarz", "sprzatacz", "piekarz", "sprzedawca", "psycholog", "tkacz", "bard", "ksiegowy", "bednarz", "grabarz", "policjant", "kowal", "urzednik", "wozny", "katecheta" };
+string expected_profession_array[] = { "mechanik", "naukowiec", "lekarz", "nauczyciel", "budowlaniec", "sekretarz", "sprz¹tacz", "piekarz", "sprzedawca", "psycholog", "tkacz", "bard", "ksiêgowy", "bednarz", "grabarz", "policjant", "kowal", "urzednik", "woŸny", "katecheta" };
 
 string passport_types_of_data_array[] = { "name", "surname", "birth_date", "code", "country" };
 string id_card_types_of_data_array[] = { "name", "surname", "birth_date", "country", "height", "weight", "code"};
 string brain_test_types_of_data_array[] = { "name", "surname", "iq", "expected_profession"};
-string dialogues_array[] = {"Jestescie dobrzy.Przepuscicie mnie?", "I jak tam sie zyje?Dobrze?", "Wracam do Kavertii.To wspanialy kraj!", "Blagam.Przepuscie mnie!Moj syn choruje.Musze sie tam dostac.", "Macie pozyczyc 5$?", "Prosze, przepuscie mnie!", "Nie daje juz rady.", "Zlitujcie sie nade mna!Musze wejsc!", "Niech zyje Kavertia!", " ", "Wszystko jest poprawnie?", "Czy tam jest tak dobrze?", "Badzcie dla mnie laskawi!", "Ja tylko przejazdem.", "Wracam do rodziny."};
+string dialogues_array[] = {"Jesteœcie dobrzy.Przepuœcicie mnie?", "I jak tam sie ¿yje?Dobrze?", "Wracam do Kavertii.To wspania³y kraj!", "B³agam.Przepuœcie mnie!Mój syn choruje.Muszê siê tam dostaæ.", "Macie po¿yczyæ 5$?", "Proszê, przepuœcie mnie!", "Nie dajê ju¿ sobie rady.", "Zlitujcie siê nade mn¹!Muszê wejœæ!", "Niech ¿yje Kavertia!", " ", "Wszystko jest poprawnie?", "Czy tam jest tak dobrze?", "B¹dzcie dla mnie ³askawi!", "Ja tylko przejazdem.", "Wracam do rodziny."};
 
-const char* passport_types_of_data_array_PL[] = {"imie", "nazwisko", "rok", "kraj", "kod"};
-const char* passport_and_id_types_of_data_array_PL[] = { "imie", "nazwisko", "rok", "kraj", "kod", "waga", "wzrost"};
-const char* passport_id_and_brain_test_types_of_data_array_PL[] = { "imie", "nazwisko", "rok", "kraj", "kod", "waga", "wzrost", "IQ", "zawod"};
+const char* passport_types_of_data_array_PL[] = {"imiê", "nazwisko", "rok", "kraj", "kod"};
+const char* passport_and_id_types_of_data_array_PL[] = { "imiê", "nazwisko", "rok", "kraj", "kod", "waga", "wzrost"};
+const char* passport_id_and_brain_test_types_of_data_array_PL[] = { "imiê", "nazwisko", "rok", "kraj", "kod", "waga", "wzrost", "IQ", "zawód"};
 
 // Functions
 
@@ -45,11 +46,6 @@ extern struct BRAIN_TEST
 	string surname;
 	string iq;
 	string expected_profession;
-	void GenerateIdCard()
-	{
-		iq = GenerateData(iq_array, _countof(iq_array));
-		expected_profession = GenerateData(expected_profession_array, _countof(expected_profession_array));
-	}
 	void PrintBrainTest()
 	{
 		int x = 98;
@@ -69,7 +65,7 @@ extern struct BRAIN_TEST
 		gotoxy(x, y+5);
 		cout << "-" << setfill('-') << setw(width) << "-";
 		gotoxy(x, y+6);
-		cout << "Przewidywany zawod:";
+		cout << "Przewidywany zawód:";
 		gotoxy(x, y+7);
 		cout << expected_profession;
 		gotoxy(x, y+8);
@@ -99,7 +95,7 @@ extern struct ID_CARD
 		gotoxy(x, y);
 		cout << setfill(' ');
 		gotoxy(x, y + 1);
-		cout << setw(19) << "DOWOD OSOBISTY";
+		cout << setw(19) << "DOWÓD OSOBISTY";
 		gotoxy(x, y + 2);
 		cout << "+" << setfill('-') << setw(width) << "+";
 		gotoxy(x, y + 3);
@@ -151,7 +147,7 @@ extern struct PASSPORT
 		gotoxy(x, y);
 		cout << setfill(' ');
 		gotoxy(x, y + 1);
-		cout << setw(22) << "VIZA WEJSCIOWA";
+		cout << setw(22) << "VIZA WEJŒCIOWA";
 		gotoxy(x, y + 2);
 		cout << "+" << setfill('-') << setw(width) << "+";
 		gotoxy(x, y + 3);
@@ -329,7 +325,7 @@ int GenerateRandomNumber(int max)
 {
 	int range = max;
 	srand(time(nullptr));
-	int num = rand() % range; //+1
+	int num = rand() % range + 1;
 
 	return num;
 }
@@ -381,26 +377,31 @@ void ShowHowToPlay()
 {
 	system("CLS");
 	int option;
-	cout << "Dziekujemy za granie w \"Dokumenty, prosze!\"." << endl << endl;
+	cout << "Dziekujê za granie w \"Dokumenty, proszê!\"." << endl << endl;
 
 	cout << "   ___   __   __ __   __    ___ " << endl;
 	cout << "  | _,\\ /__\\ |  V  | /__\\  / _/ " << endl;
 	cout << "  | v_/| \\/ || \\_/ || \\/ || \\__ " << endl;
 	cout << "  |_|   \\__/ |_| |_| \\__/  \\__/ " << endl;
 
-	cout << endl << "W grze wcielisz sie w inspektora imigracyjnego sprawdzajacego dokumenty na granicy Twojego kraju - Kavertii.";
+	cout << endl << "W grze wcielisz siê w inspektora imigracyjnego sprawdzaj¹cego dokumenty na granicy Twojego kraju - Kavertii.";
 	cout << endl << endl;
-	cout << "Podstawowa mechanika jest tu wybieranie, ktora z informacji zawartych w dokumentach petentow jest niezgodna z innymi papierami tegoz petenta lub z obecnym prawem. Na poczatku kazdego dnia zostaniesz zapoznany z nowym przepisem, ktorego nalezy przestrzegac.\n\nBedziesz musial zadecydowac, czy przepuscisz danego petenta czy nie, w zaleznoci od Twoich wyborow moralnych.\nPamietaj! Jesli przepuscisz osobe, ktorej dokumenty byly niezgodne lub nie przepuscisz osoby, ktora zadbala o poprawnosc papierow - stracisz czesc swojej wyplaty.\nDbaj o swoja rodzine!";
+	cout << "Podstawow¹ mechanik¹ jest tu wybieranie, która z informacji zawartych w dokumentach petentów \njest niezgodna z innymi papierami tego¿ petenta lub z obecnym prawem. \nNa pocz¹tku ka¿dego dnia zostaniesz zapoznany z nowym przepisem, którego nale¿y przestrzegaæ.\n\nBêdziesz musia³ zadecydowaæ, czy przepuœcisz danego petenta czy nie, \nw zale¿noœci od Twoich wyborów moralnych.\nPamiêtaj! Jeœli przepuœcisz osobê, której dokumenty by³y niezgodne \nlub nie przepuœcisz osoby, która zadba³a o poprawnoœæ papierów - stracisz czêœæ swojej wyp³aty.\nDbaj o swoj¹ rodzinê!";
 
 	cout << endl << endl;
-	cout << "Gra zapisuje sie automatycznie na poczatku kazdego dnia pracy.";
+	cout << "Gra zapisuje siê automatycznie na pocz¹tku ka¿dego dnia pracy.";
 
 	cout << "\n\n" << "Powodzenia!";
 	color(3);
-	cout << endl << endl << "< POWROT" << endl;
+	cout << endl << endl << "< POWRÓT" << endl;
 	color(7);
-	system("pause");
-	ShowMenu();
+	char key{};
+	for (int i = 0;;)
+	{
+		key = _getch();
+		if (key == 75)
+			ShowMenu();
+	}
 }
 // Ekran stworzenia nowej gry lub za³adowania istniej¹cej
 void PlayGame()
@@ -424,11 +425,11 @@ void PlayGame()
 
 		gotoxy(24, menu_y+1);
 		color(Set[1]);
-		cout << setw(menu_width + 1) << "KONTYNUUJ GRE";
+		cout << setw(menu_width + 1) << "KONTYNUUJ GRÊ";
 
-		gotoxy(24, menu_y+2);
+		gotoxy(24, menu_y+3);
 		color(Set[2]);
-		cout << setw(menu_width + 1) << "POWROT DO MENU";
+		cout << setw(menu_width + 1) << "POWRÓT DO MENU";
 
 		key = _getch();
 
@@ -486,7 +487,7 @@ void NewGame()
 {
 	InitializeGame();
 	system("CLS");
-	Typewriter("Witajcie obywatelu!Zostala wam przydzielona funkcja inspektora imigracyjnego.Macie za zadanie sprawdzac dokumenty kazdego petenta.Pilnujcie przepisow!Sprawujcie sie dobrze.I NIECH ZYJE KAVERTIA!");
+	Typewriter("Witajcie obywatelu!Zosta³a Wam przydzielona funkcja inspektora imigracyjnego.Macie za zadanie sprawdzaæ dokumenty ka¿dego petenta przekraczaj¹cego granicê.Rozkaz to pilnowaæ przepisów!Sprawujcie siê dobrze.NIECH ¯YJE KAVERTIA!");
 	Sleep(1000);
 	system("CLS");
 	
@@ -582,7 +583,7 @@ void ShowMenu()
 
 		gotoxy(24, menu_y+2);
 		color(Set[2]);
-		cout << setw(menu_width) << "WYJDZ";
+		cout << setw(menu_width) << "WYJD";
 
 		key = _getch();
 
@@ -624,16 +625,16 @@ void Ending(int ending_index)
 	switch (ending_index)
 	{
 	case 0:
-		Typewriter("Twoja rodzina i Ty umieracie.Czasy byly ciezkie.Nie starczalo wam na dom i pozywienie.Kazdy z Was zaczynal chorowac z powodu panujacego w domu zimna.W chwili swojej smierci myslales sobie, ze dobrze wykonales swoja prace.Teraz wszyscy beda szczesliwi.");
+		Typewriter("Twoja rodzina i Ty - umieracie.Czasy by³y ciê¿kie.Nie starcza³o Wam na dom i po¿ywienie.Ka¿dy z Was zaczyna³ chorowaæ z powodu panuj¹cego w domu zimna.W chwili swojej œmierci myœla³eœ o swojej pracy - wykona³eœ j¹ dobrze, mimo ¿e nie dawa³a Ci wielu zysków.Teraz wszyscy bêdziecie szczêœliwi.Razem.");
 		break;
 	case 1:
-		Typewriter("Wykonywales swoja prace skrupulatnie i zgodnie z prawem.Nikt nie moze Ci zarzucic nieuczciwosci.Wiesz, ze postepowales dobrze.Twoja rodzina i Ty zyjecie godnie.Nie musisz sie juz wiecej martwic.");
+		Typewriter("Wykonywa³eœ swoj¹ pracê skrupulatnie i zgodnie z prawem.Nikt nie mo¿e Ci zarzuciæ nieuczciwoœci.Wiesz, ¿e postêpowa³eœ dobrze.Twoja rodzina i Ty ¿yjecie godnie.Nie musisz siê ju¿ wiêcej martwiæ.");
 		break;
 	case 2:
-		Typewriter("Byles surowym inspektorem.Weszyles podstep w kazdym dokumencie, jaki dostales.Nie mogles odpuscic sobie wcisniecia przycisku ODMOWA.Wiesz, ze wypelniles swoje obowiazki az za dobrze.Siedzisz teraz sam w pustym domu i jestes z siebie dumny.");
+		Typewriter("Byleœ surowym inspektorem.Wœszy³es podstêp w ka¿dym okazanym Ci dokumencie.Nie mog³eœ odpuœciæ sobie wciœniêcia przycisku ODMOWA.Wiesz, ¿e wype³ni³eœ swoje obowi¹zki a¿ za dobrze.Siedzisz teraz sam w pustym domu i jesteœ z siebie dumny.");
 		break;
 	case 3:
-		Typewriter("Wiedziales, ze praca na granicy sprawi Ci wiele przykrosci.Tyle smutnych twarzy blagajacych Cie o wcisniecie przycisku UZNANO.Miales serce, zeby wpuszczac tych biednych ludzi, nawet za cene swojego zycia.Moze i nie zyjesz teraz w ciaglym dostatku, ale wiesz, ze spelniles swoja misje.Wiesz, ze uratowales wielu ludzi i dziekujesz Bogu za to, ze dal Ci taka szanse.");
+		Typewriter("Wiedzia³eœ, ¿e praca na granicy sprawi Ci wiele przykroœci. Tyle smutnych twarzy b³agaj¹cych Ciê o wciœniêcie przycisku UZNANO. Mia³eœ serce, ¿eby wpuszczaæ tych biednych ludzi, nawet za cenê swojego ¿ycia. Mo¿e i nie ¿yjesz teraz w ci¹g³ym dostatku, ale wiesz, ¿e spe³ni³eœ swoj¹ misje. Wiesz, ze uratowa³eœ wielu ludzi i dziêkujesz Bogu za to, ¿e da³ Ci tak¹ szansê.");
 		break;
 	default:
 		ShowMenu();
@@ -642,9 +643,9 @@ void Ending(int ending_index)
 	color(7);
 	Sleep(3000);
 	system("CLS");
-	Typewriter("Gra stworzona przez Kinge Grabarczyk.");
+	Typewriter("Gra stworzona przez Kingê Grabarczyk.");
 	system("CLS");
-	Typewriter("Dziekuje za gre.");
+	Typewriter("Dziêkujê za grê.");
 	ShowMenu();
 }
 bool CheckIfMistakeInAllDocuments(PASSPORT fake_passport, ID_CARD fake_id_card)
@@ -764,22 +765,22 @@ bool LetIn()
 // Funkcje odpowiedzi na b³¹d
 int DocumentsIncorrectReminder(int salary)
 {
-	Typewriter("Upomnienie.Dane petenta byly niezgodne.-5$");
+	Typewriter("Upomnienie.Dane petenta by³y niezgodne.-5$");
 	salary -= 5;
 	GoodEndingPoints++;
 	return salary;
 }
 int DocumentsCorrectReminder(int salary)
 {
-	Typewriter("Upomnienie.Dane petenta byly zgodne.-5$");
+	Typewriter("Upomnienie.Dane petenta by³y zgodne.-5$");
 	salary -= 5;
 	BadEndingPoints++;
 	return salary;
 }
 int NoReminder(int salary)
 {
-	Typewriter("Poprawnie.+10$.");
-	salary += 10;
+	Typewriter("Poprawnie.+5$.");
+	salary += 5;
 	NeutralEndingPoints++;
 	return salary;
 }
@@ -807,7 +808,7 @@ int ShowMenuForChoosingMistake(PASSPORT fake_passport, ID_CARD fake_id_card)
 		if (choice == how_many_data+1)
 		{
 			gotoxy(60, 21);
-			cout << "W dokumentach nie ma bledu.";
+			cout << "W dokumentach nie ma b³êdu.";
 			Sleep(1000);
 			mistake_is_here = true;
 		}
@@ -818,14 +819,14 @@ int ShowMenuForChoosingMistake(PASSPORT fake_passport, ID_CARD fake_id_card)
 			if (mistake_is_here)
 			{
 				Beep(600, 200);
-				cout << "Wykryto niezgodnosc.";
+				cout << "Wykryto niezgodnoœæ.";
 				gotoxy(60, 23);
-				Typewriter("> Te dane sie nie zgadzaja.", 9);
+				Typewriter("> Te dane siê nie zgadzaj¹.", 9);
 			}
 			else
 			{
 				Beep(120, 50);
-				cout << "Nie wykryto niezgodnosci.";
+				cout << "Nie wykryto niezgodnoœci.";
 			}
 		}
 	} while (!mistake_is_here);
@@ -964,7 +965,7 @@ int SelectMistake(int counter, int how_many_data)
 void SayNext()
 {
 	system("CLS");
-	Typewriter("> Nastepny!");
+	Typewriter("> Nastêpny!");
 	system("CLS");
 }
 // G³ówna gra - ka¿dy dzieñ ma inny przepis prawny
@@ -981,19 +982,23 @@ void DayChoose(int day_number)
 	//--------------------JAKIE DZIŒ NEWSY?----------------------//
 	Typewriter(" MAGAZYN CODZIENNY   ", -2);
 	cout << DayNumber << ". lutego 1956 roku";
+	setlocale(LC_CTYPE, "UTF-8");
 	WriteFromFileByIndex(DayNumber, "DayNews.txt");
+	setlocale(LC_CTYPE, "Polish");
 	Sleep(1000);
 	system("CLS");
 
 	//------------------JAKIE DZIŒ PRZEPISY?--------------------//
-	Typewriter(" DZIEN ", -2);
+	Typewriter(" DZIEÑ ", -2);
 	cout << DayNumber;
+	setlocale(LC_CTYPE, "UTF-8");
 	WriteFromFileByIndex(DayNumber, "DayRules.txt");
+	setlocale(LC_CTYPE, "Polish");
 	Sleep(1000);
 	system("CLS");
 	//--------------------ROZPOCZECIE DNIA----------------------//
 	//----------------------------------------------------------//
-	Typewriter("> Rozpocznij dzien.\n");
+	Typewriter("> Rozpocznij dzieñ.\n");
 	do 
 	{
 	key = _getch();
@@ -1010,8 +1015,8 @@ void DayChoose(int day_number)
 			do
 			{
 				SayNext();
-				Typewriter("> Dokumenty, prosze.");
-				Typewriter("Juz daje.", 1);
+				Typewriter("> Dokumenty, proszê.");
+				Typewriter("Ju¿ dajê.", 1);
 				PASSPORT passport;
 				passport.GeneratePassport();
 				ID_CARD id_card = { passport.name, passport.surname, passport.birth_date, passport.country, " ", " ", passport.code };
@@ -1031,11 +1036,11 @@ void DayChoose(int day_number)
 			do
 			{
 				SayNext();
-				Typewriter("> Dokumenty, prosze.");
-				Typewriter("Tutaj sa.", 1);
+				Typewriter("> Dokumenty, proszê.");
+				Typewriter("Tutaj s¹.", 1);
 				PASSPORT passport;
 				passport.GeneratePassport();
-				Typewriter("> Imie i nazwisko.", 2);
+				Typewriter("> Imiê i nazwisko.", 2);
 				Typewriter(passport.name + " " + passport.surname, 3);
 				GenerateDialogue(0);
 
@@ -1077,11 +1082,11 @@ void DayChoose(int day_number)
 			do
 			{
 				SayNext();
-				Typewriter("> Dokumenty, prosze.");
-				Typewriter("Oto moj paszport i dowod.", 1);
+				Typewriter("> Dokumenty, proszê.");
+				Typewriter("Oto mój paszport i dowód.", 1);
 				PASSPORT passport;
 				passport.GeneratePassport();
-				Typewriter("> Imie i nazwisko.", 2);
+				Typewriter("> Imiê i nazwisko.", 2);
 				Typewriter(passport.name + " " + passport.surname, 3);
 				GenerateDialogue(0);
 
@@ -1123,11 +1128,11 @@ void DayChoose(int day_number)
 			do
 			{
 				SayNext();
-				Typewriter("> Dokumenty, prosze.");
-				Typewriter("Prosze.", 1);
+				Typewriter("> Dokumenty, proszê.");
+				Typewriter("Proszê.", 1);
 				PASSPORT passport;
 				passport.GeneratePassport();
-				Typewriter("> Imie i nazwisko.", 2);
+				Typewriter("> Imiê i nazwisko.", 2);
 				Typewriter(passport.name + " " + passport.surname, 3);
 				GenerateDialogue(0);
 
@@ -1169,11 +1174,11 @@ void DayChoose(int day_number)
 			do
 			{
 				SayNext();
-				Typewriter("> Dokumenty, prosze.");
+				Typewriter("> Dokumenty, proszê.");
 				Typewriter("Czego jeszcze chcecie?", 1);
 				PASSPORT passport;
 				passport.GeneratePassport();
-				Typewriter("> Imie i nazwisko.", 2);
+				Typewriter("> Imiê i nazwisko.", 2);
 				Typewriter(passport.name + " " + passport.surname, 3);
 				GenerateDialogue(0);
 
@@ -1248,15 +1253,15 @@ void DayChoose(int day_number)
 	Typewriter("Koniec dnia!");
 	//--------------------PODSUMOWANIE DNIA--------------------//
 	color(112);
-	Typewriter("Oszczednosci          ", 4);
+	Typewriter("Oszczêdnoœci          ", 4);
 	cout << "+" << CoinsNumber << "$";
-	Typewriter("Zarobiles             ", 6);
+	Typewriter("Zarobi³eœ             ", 6);
 	cout << "+" << salary << "$";
 	Typewriter("Ogrzewanie            ", 8);
 	cout << "-10$";
 	Typewriter("Czynsz                ", 10);
 	cout << "-20$";
-	Typewriter("Zywnosc               ", 12);
+	Typewriter("¯ywnoœæ               ", 12);
 	cout << "-15$";
 	CoinsNumber = CoinsNumber + salary - 45;
 	Typewriter("Razem                 ", 14);
@@ -1267,9 +1272,11 @@ void DayChoose(int day_number)
 	else if (CoinsNumber >= 20 && CoinsNumber <= 70)
 		cout << "OK";
 	else if (CoinsNumber < 20 && CoinsNumber > 0)
-		cout << "Zle";
+		cout << "le";
 	else if (CoinsNumber <= 0)
 	{
+		cout << "Nie ¿yje";
+		Sleep(1000);
 		color(7);
 		Ending(0);
 	}
@@ -1280,7 +1287,7 @@ void DayChoose(int day_number)
 	file.close();
 
 	Typewriter("Kontynuuj >", 18);
-	Typewriter("< Wroc do menu", 19);
+	Typewriter("< Wróæ do menu", 19);
 	for (int i = 0;;)
 	{
 		key = _getch();
@@ -1292,7 +1299,4 @@ void DayChoose(int day_number)
 		else if (key == 75)
 		ShowMenu();
 	}
-
-	
-	
 }
