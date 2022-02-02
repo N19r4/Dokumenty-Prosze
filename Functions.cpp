@@ -646,6 +646,7 @@ void Ending(int ending_index)
 	Typewriter("Gra stworzona przez Kingê Grabarczyk.");
 	system("CLS");
 	Typewriter("Dziêkujê za grê.");
+	InitializeGame();
 	ShowMenu();
 }
 bool CheckIfMistakeInAllDocuments(PASSPORT fake_passport, ID_CARD fake_id_card)
@@ -670,7 +671,7 @@ bool CheckIfMistakeIsHere(int choice, PASSPORT fake_passport, ID_CARD fake_id_ca
 			return false;
 		break;
 	case 3:
-		if ((DayNumber == 3) && (!(IsAgeOK("56", fake_passport.birth_date, 18, 65)) || !(IsAgeOK("56", fake_id_card.birth_date, 18, 65))))
+		if ((DayNumber == 3) && (!(IsAgeOK("56", fake_passport.birth_date, 18, 100)) || !(IsAgeOK("56", fake_id_card.birth_date, 18, 100))))
 			return true;
 		if (fake_passport.birth_date == fake_id_card.birth_date)
 			return false;
@@ -1229,17 +1230,6 @@ void DayChoose(int day_number)
 			} while (seconds_since_start < 320);
 			break;
 		}
-		//-------DZIEÑ 6-------//
-		case 6:
-		{
-			color(112);
-			if ((GoodEndingPoints > NeutralEndingPoints) && (GoodEndingPoints > BadEndingPoints))
-				Ending(3);
-			else if ((BadEndingPoints > GoodEndingPoints) && (BadEndingPoints > NeutralEndingPoints))
-				Ending(2);
-			else
-				Ending(1);
-		}
 		default:
 		{
 			ShowMenu();
@@ -1293,6 +1283,17 @@ void DayChoose(int day_number)
 		key = _getch();
 		if (key == 77)
 		{
+			//-------DZIEÑ 6-------//
+			if ((DayNumber + 1) == 6)
+			{
+				color(112);
+				if ((GoodEndingPoints > NeutralEndingPoints) && (GoodEndingPoints > BadEndingPoints))
+					Ending(3);
+				else if ((BadEndingPoints > GoodEndingPoints) && (BadEndingPoints > NeutralEndingPoints))
+					Ending(2);
+				else
+					Ending(1);
+			}
 			DayNumber++;
 			DayChoose(DayNumber);
 		}
