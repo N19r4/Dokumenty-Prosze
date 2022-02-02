@@ -1260,10 +1260,10 @@ void DayChoose(int day_number)
 	Typewriter("Ogrzewanie            ", 8);
 	cout << "-10$";
 	Typewriter("Czynsz                ", 10);
-	cout << "-20$";
-	Typewriter("¯ywnoœæ               ", 12);
 	cout << "-15$";
-	CoinsNumber = CoinsNumber + salary - 45;
+	Typewriter("¯ywnoœæ               ", 12);
+	cout << "-10$";
+	CoinsNumber = CoinsNumber + salary - 35;
 	Typewriter("Razem                 ", 14);
 	cout << CoinsNumber << "$";
 	Typewriter("Rodzina               ", 16);
