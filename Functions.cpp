@@ -671,7 +671,7 @@ bool CheckIfMistakeIsHere(int choice, PASSPORT fake_passport, ID_CARD fake_id_ca
 			return false;
 		break;
 	case 3:
-		if ((DayNumber == 3) && (!(IsAgeOK("56", fake_passport.birth_date, 18, 100)) || !(IsAgeOK("56", fake_id_card.birth_date, 18, 100))))
+		if ((DayNumber == 3 || DayNumber == 4) && (!(IsAgeOK("56", fake_passport.birth_date, 18, 100)) || !(IsAgeOK("56", fake_id_card.birth_date, 18, 100))))
 			return true;
 		if (fake_passport.birth_date == fake_id_card.birth_date)
 			return false;
