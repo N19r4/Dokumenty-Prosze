@@ -26,6 +26,7 @@ using namespace std;
 int main()
 {
 	setlocale(LC_CTYPE, "Polish");
+	bool played = PlaySound(TEXT("SoundTrackTwo.wav"), NULL, SND_LOOP | SND_ASYNC);
 	ShowMenu();
 	system("pause");
 }

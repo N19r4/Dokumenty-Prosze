@@ -315,7 +315,7 @@ void DayChoose(int day_number);
 void InitializeGame()
 {
 	CoinsNumber = 30;
-	DayNumber = 1;
+	DayNumber = 2;
 	NeutralEndingPoints = 0;
 	BadEndingPoints = 0;
 	GoodEndingPoints = 0;
@@ -409,7 +409,7 @@ void PlayGame()
 	system("CLS");
 
 	int menu_y = 13;
-	int Set[] = { 7,7,7 }; // DEFAULT COLORS
+	int Set[] = { 3,7,7 }; // DEFAULT COLORS
 	int main_color = 7;
 	int hover_color = 3;
 	int menu_width = 45;
@@ -541,8 +541,6 @@ void ShowMenu()
 {
 	system("CLS");
 
-	bool played = PlaySound(TEXT("SoundTrackTwo.wav"), NULL, SND_LOOP | SND_ASYNC);
-
 	hidecursor();
 	cout << setfill(' ');
 
@@ -561,7 +559,7 @@ void ShowMenu()
 	gotoxy(starting_point_x, starting_point_y+4);
 	cout << "                                                                                        |/      " << endl;
 
-	int Set[] = { 7,7,7 }; // DEFAULT COLORS
+	int Set[] = { 3,7,7 }; // DEFAULT COLORS
 	int main_color = 7;
 	int hover_color = 3;
 	int menu_width = 45;
@@ -926,6 +924,13 @@ int ShowMenuForChoosingMistake(PASSPORT fake_passport, ID_CARD fake_id_card)
 int SelectMistake(int counter, int how_many_data)
 {
 	char key;
+
+	color(112);
+	gotoxy(60, 20);
+	cout << "                  ";
+	cout << "\r";
+	gotoxy(60, 20);
+	cout << "imiê";
 
 	for (int i = 0;;)
 	{

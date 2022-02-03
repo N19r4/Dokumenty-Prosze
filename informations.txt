@@ -1,7 +1,0 @@
-string name_array[] = { "Grigorij", "Nikolai", "Marika", "Paul", "Katrina", "Eva", "Dimitr", "Anna", "Francesca", "Alexandr", "Kristof", "Eric", "Vladimir"};
-string surname_array[] = { "Kovalev", "Webov", "Gitarov", "Kaczmarov", "Ginter", "Russ", "Schumann", "Guttman"};
-string birth_date_array[] = { "23.04.1976", "12.09.1956", "01.05.1982", "11.07.1968", "09.09.1990"};
-string country_array[] = { "Arstotzka", "Kolechia", "Obristan", "Republia", "Altan", "Morstana", "West Grestin"};
-string code_array[] = { "RGRD2-WTGDF-A674F", "DDFF2-RTVV9-89DFD", "RERG1-JYUJT-56G45", "3454F-9D9FG-SDF98", "DF98G-SDUFI-DF98G", "S98UF-SD9FD-0FGIB"};
-string weight_array[] = { "64", "56", "90", "37", "58", "41" };
-string height_array[] = { "174", "167", "198", "179", "180", "159" };
